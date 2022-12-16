@@ -10,6 +10,8 @@ function App() {
         {id: v1(), title: "HTML&CSS", isDone: true},
         {id: v1(), title: "JS", isDone: true},
         {id: v1(), title: "ReactJS", isDone: true},
+        {id: v1(), title: "NodeJS", isDone: false},
+        {id: v1(), title: "Angular", isDone: false},
     ])
 
     const [filter, setFilter] = useState<FilterValueType>('all')
@@ -49,7 +51,7 @@ function App() {
     return (
         <div className="App">
             <Todolist title={'What to learn'} tasks={tasksForTodolist} removeTask={removeTask}
-                      changeFilter={changeFilter} addTask={addTask} changeStatus={changeStatus}/>
+                      changeFilter={changeFilter} addTask={addTask} changeStatus={changeStatus} filter={filter}/>
         </div>
     );
 }
