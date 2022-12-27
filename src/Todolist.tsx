@@ -2,6 +2,8 @@ import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {FilterValueType} from "./App";
 import {v1} from "uuid";
 import {AddItemForm} from "./AddItemForm";
+import {EditableSpan} from "./EditableSpan";
+import * as timers from "timers";
 
 export type TaskPropsType = {
     id: string
@@ -17,13 +19,18 @@ type TodolistPropsType = {
     changeFilter: (filter: FilterValueType, todolistId: string) => void
     addTask: (title: string, todolistId: string) => void
     changeStatus: (id: string, todolistId: string, isDone: boolean) => void
+    onChangeTitle: (id: string, todolistId: string, title: string) => void
     removeTodolist: (id: string) => void
+    changeTodolistTitle: (title: string, todolistId: string) => void
     filter: FilterValueType
 }
 
 export const Todolist = (props: TodolistPropsType) => {
 
 
+    const changeTodolistTitle = (title: string) => {
+        props.changeTodolistTitle(title, props.id)
+    }
     const removeTodolist = () => props.removeTodolist(props.id)
     const addTask = (title: string) => {
         props.addTask(title, props.id)
@@ -33,7 +40,7 @@ export const Todolist = (props: TodolistPropsType) => {
         <div>
             <h3>
                 <button onClick={removeTodolist}>x</button>
-                {props.title}
+                <EditableSpan title={props.title} onChangeTitle={changeTodolistTitle}/>
             </h3>
             <AddItemForm addItem={addTask}/>
             <ul>
@@ -41,11 +48,13 @@ export const Todolist = (props: TodolistPropsType) => {
 
                     const onClickHandler = () => props.removeTask(t.id, props.id)
                     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => props.changeStatus(t.id, props.id, e.currentTarget.checked)
+                    const onChangeTitle = (title: string) => props.onChangeTitle(t.id, props.id, title)
 
                     return (<li key={t.id} className={t.isDone ? 'is-done' : ''}>
                         <button onClick={onClickHandler}>x</button>
                         <input type="checkbox" checked={t.isDone} onChange={onChangeHandler}/>
-                        <span>{t.title}</span></li>)
+                        <EditableSpan title={t.title} onChangeTitle={onChangeTitle}/>
+                    </li>)
 
                 })}
             </ul>
