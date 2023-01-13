@@ -61,22 +61,25 @@ export const Todolist = (props: TodolistPropsType) => {
                     })}
                 </List>
                 <div>
-                    <Button variant={'outlined'} size={'small'} sx={{mr: '4px', fontSize: '10px', p: '4px 4px'}}
+                    <Button variant={props.filter === 'all' ? 'contained' : 'outlined'} size={'small'}
+                            sx={{mr: '4px', fontSize: '10px', p: '4px 4px'}}
                             onClick={() => {
                                 props.changeFilter("all", props.id)
                             }}
-                            color={props.filter === 'all' ? 'inherit' : 'primary'}>All
+                            color={props.filter === 'all' ? 'primary' : 'inherit'}>All
                     </Button>
-                    <Button variant={'outlined'} size={'small'} sx={{mr: '4px', fontSize: '10px', p: '4px 4px'}}
+                    <Button variant={props.filter === 'active' ? 'contained' : 'outlined'} size={'small'}
+                            sx={{mr: '4px', fontSize: '10px', p: '4px 4px'}}
                             onClick={() => {
                                 props.changeFilter("active", props.id)
                             }}
-                            color={props.filter === 'active' ? 'inherit' : 'primary'}>Active
+                            color={props.filter === 'active' ? 'primary' : 'inherit'}>Active
                     </Button>
-                    <Button variant={'outlined'} size={'small'} sx={{fontSize: '10px', p: '4px 4px'}} onClick={() => {
+                    <Button variant={props.filter === 'completed' ? 'contained' : 'outlined'} size={'small'}
+                            sx={{fontSize: '10px', p: '4px 4px'}} onClick={() => {
                         props.changeFilter("completed", props.id)
                     }}
-                            color={props.filter === 'completed' ? 'inherit' : 'primary'}>Completed
+                            color={props.filter === 'completed' ? 'primary' : 'inherit'}>Completed
                     </Button>
                 </div>
             </div>
