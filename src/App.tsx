@@ -60,7 +60,7 @@ function App() {
             setTodolists([...todolists])
         }
     }
-    const changeFilter = (filter: FilterValueType, todolistId: string) => {
+    const changeTodolistFilter = (filter: FilterValueType, todolistId: string) => {
         let todolist = todolists.find(tl => tl.id === todolistId)
         if (todolist) {
             todolist.filter = filter
@@ -145,7 +145,7 @@ function App() {
                                           changeTaskTitle={changeTaskTitle}
                                           changeTaskStatus={changeTaskStatus}
                                           removeTodolist={removeTodolist}
-                                          changeFilter={changeFilter}
+                                          changeFilter={changeTodolistFilter}
                                           changeTodolistTitle={changeTodolistTitle}
                                 />
                             </Paper>
