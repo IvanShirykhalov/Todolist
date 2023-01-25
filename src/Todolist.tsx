@@ -45,6 +45,7 @@ export const Todolist = (props: TodolistPropsType) => {
                     </IconButton>
                     <EditableSpan title={props.title} onChangeTitle={changeTodolistTitle}/>
                 </h3>
+                <AddItemForm addItem={addTask}/>
                 <List>
                     {props.tasks.map(t => {
 
