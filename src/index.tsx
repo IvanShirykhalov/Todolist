@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import {red} from "@mui/material/colors";
 import {createTheme, ThemeProvider} from "@mui/material";
-import AppWithRedux from "./AppWithRedux";
+import App from "./App";
 import {Provider} from "react-redux";
 import {store} from "./reducer/store";
 
@@ -24,7 +24,7 @@ root.render(
     <ThemeProvider theme={theme}>
         <React.StrictMode>
             <Provider store={store}>
-                <AppWithRedux/>
+                <App/>
             </Provider>
         </React.StrictMode>
     </ThemeProvider>
