@@ -1,9 +1,9 @@
 import React, {ChangeEvent} from 'react';
-import {FilterValueType} from "./App";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Button, Checkbox, IconButton, List, ListItem} from "@mui/material";
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
+import {FilterValueType} from "./AppWithRedux";
 
 export type TaskPropsType = {
     id: string

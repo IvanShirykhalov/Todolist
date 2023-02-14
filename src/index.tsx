@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
-import {deepOrange, lightBlue, purple, red} from "@mui/material/colors";
+import {red} from "@mui/material/colors";
 import {createTheme, ThemeProvider} from "@mui/material";
-import CssBaseline from '@mui/material/CssBaseline';
+import AppWithRedux from "./AppWithRedux";
+import {Provider} from "react-redux";
+import {store} from "./reducer/store";
 
 const theme = createTheme({
     palette: {
@@ -22,8 +23,9 @@ const root = ReactDOM.createRoot(
 root.render(
     <ThemeProvider theme={theme}>
         <React.StrictMode>
-
-            <App/>
+            <Provider store={store}>
+                <AppWithRedux/>
+            </Provider>
         </React.StrictMode>
     </ThemeProvider>
 );
