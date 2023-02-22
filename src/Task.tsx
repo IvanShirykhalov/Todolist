@@ -24,10 +24,12 @@ export const Task = React.memo((props: TaskPropsType) => {
         const onChangeTitle = (title: string) => dispatch(changeTaskTitleAC(props.task.id, props.todolistId, title))
 
 
-        return (<ListItem sx={{p: '0'}} key={props.task.id} className={props.task.isDone ? 'is-done' : ''}>
-            <IconButton onClick={onRemoveTask}><ClearOutlinedIcon fontSize={'small'}/></IconButton>
-            <Checkbox checked={props.task.isDone} onChange={onChangeTaskStatus} color={'default'}/>
-            <EditableSpan title={props.task.title} onChangeTitle={onChangeTitle}/>
-        </ListItem>)
+        return (
+            <ListItem sx={{p: '0'}} key={props.task.id} className={props.task.isDone ? 'is-done' : ''}>
+                <IconButton onClick={onRemoveTask}><ClearOutlinedIcon fontSize={'small'}/></IconButton>
+                <Checkbox checked={props.task.isDone} onChange={onChangeTaskStatus} color={'default'}/>
+                <EditableSpan title={props.task.title} onChangeTitle={onChangeTitle}/>
+            </ListItem>
+        )
     }
 )
