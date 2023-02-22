@@ -1,15 +1,9 @@
-import React from 'react';
-import {TaskPropsType, Todolist} from "./Todolist";
+import React, {useCallback} from 'react';
+import {TaskType, Todolist} from "./Todolist";
 import {AddItemForm} from "./AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
-import {
-    addTodolistAC,
-    changeTodolistFilterAC,
-    changeTodolistTitleAC,
-    removeTodolistAC
-} from "./reducer/todolists-reducer";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./reducer/tasks-reducer";
+import {addTodolistAC} from "./reducer/todolists-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./reducer/store";
 
@@ -21,19 +15,20 @@ export type TodolistType = {
 }
 
 export type TasksStateType = {
-    [key: string]: TaskPropsType[]
+    [key: string]: TaskType[]
 }
 
 export type FilterValueType = 'all' | 'active' | 'completed'
 
 function App() {
+    console.log('App')
 
     const dispatch = useDispatch()
     const todolists = useSelector<AppRootStateType, TodolistType[]>(state => state.todolists)
 
-    const addTodolist = (title: string) => {
-        dispatch(addTodolistAC(title))
-    }
+
+    const addTodolist = useCallback((title: string) => dispatch(addTodolistAC(title)), [dispatch])
+
 
     return (
         <div className="App">
@@ -56,7 +51,7 @@ function App() {
                     {todolists.map(tl => {
 
 
-                        return <Grid item>
+                        return <Grid item key={tl.id}>
                             <Paper sx={{p: '10px'}}>
                                 <Todolist key={tl.id}
                                           id={tl.id}
