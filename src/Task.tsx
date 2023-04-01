@@ -1,10 +1,9 @@
-import React, {ChangeEvent, useCallback} from 'react';
+import React, {ChangeEvent} from 'react';
 import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./reducer/tasks-reducer";
 import {Checkbox, IconButton, ListItem} from "@mui/material";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import {EditableSpan} from "./EditableSpan";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./reducer/store";
+import {useDispatch} from "react-redux";
 import {TaskType} from "./Todolist";
 
 type TaskPropsType = {

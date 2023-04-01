@@ -1,9 +1,9 @@
 import React from 'react';
 import {ComponentMeta, ComponentStory} from '@storybook/react';
-import {AddItemForm} from "../AddItemForm";
-import {Task} from "../Task";
-import {ReduxStoreProviderDecorator} from "./decorators/ReduxStoreProviderDecorator";
-import App from "../App";
+import {AddItemForm} from "../../AddItemForm";
+import {Task} from "../../Task";
+import {ReduxStoreProviderDecorator} from "../decorators/ReduxStoreProviderDecorator";
+import App from "../../App";
 
 export default {
     title: 'Todolist/App',
