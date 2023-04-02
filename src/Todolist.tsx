@@ -3,27 +3,19 @@ import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Button, IconButton, List} from "@mui/material";
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
-import {FilterValueType} from "./App";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./reducer/store";
-import {changeTodolistFilterAC, changeTodolistTitleAC, removeTodolistAC} from "./reducer/todolists-reducer";
+import {
+    changeTodolistFilterAC,
+    changeTodolistTitleAC, FilterValueType,
+    removeTodolistAC, TodolistDomainType
+} from "./reducer/todolists-reducer";
 import {addTaskAC} from "./reducer/tasks-reducer";
 import {Task} from "./Task";
+import {TaskType} from "./api/todolist-api";
 
-export type TaskType = {
-    id: string
-    title: string
-    isDone: boolean
-}
 
-type TodolistPropsType = {
-    title: string
-    id: string
-    filter: FilterValueType
-}
-
-export const Todolist = React.memo((props: TodolistPropsType) => {
-    console.log('Todolist')
+export const Todolist = React.memo((props: TodolistDomainType) => {
 
     const dispatch = useDispatch()
     let tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[props.id])

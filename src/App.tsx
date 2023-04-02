@@ -1,30 +1,24 @@
 import React, {useCallback} from 'react';
-import {TaskType, Todolist} from "./Todolist";
+import {Todolist} from "./Todolist";
 import {AddItemForm} from "./AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
-import {addTodolistAC} from "./reducer/todolists-reducer";
+import {addTodolistAC, TodolistDomainType} from "./reducer/todolists-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./reducer/store";
+import {TaskType} from "./api/todolist-api";
 
 
-export type TodolistType = {
-    id: string
-    title: string
-    filter: FilterValueType
-}
 
 export type TasksStateType = {
     [key: string]: TaskType[]
 }
 
-export type FilterValueType = 'all' | 'active' | 'completed'
 
 function App() {
-    console.log('App')
 
     const dispatch = useDispatch()
-    const todolists = useSelector<AppRootStateType, TodolistType[]>(state => state.todolists)
+    const todolists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todolists)
 
 
     const addTodolist = useCallback((title: string) => dispatch(addTodolistAC(title)), [dispatch])
@@ -56,6 +50,8 @@ function App() {
                                 <Todolist key={tl.id}
                                           id={tl.id}
                                           title={tl.title}
+                                          addedDate={tl.addedDate}
+                                          order={tl.order}
                                           filter={tl.filter}
                                 />
                             </Paper>
