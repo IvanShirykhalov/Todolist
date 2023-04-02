@@ -173,12 +173,17 @@ export const DeleteTask = () => {
 export const UpdateTaskTitle = () => {
     const [state, setState] = useState<any>(null)
     const [todolistId, setTodolistId] = useState<string>('')
-    const [taskId, setTaskId] = useState<string>('')
     const [title, setTitle] = useState<string>('')
+    const [taskId, setTaskId] = useState<string>('')
+    const [description, setDescription] = useState<string>('')
+    const [status, setStatus] = useState<number>(0)
+    const [priority, setPriority] = useState<number>(0)
+    const [startDate, setStartDate] = useState<string>('')
+    const [deadline, setDeadline] = useState<string>('')
 
 
     const updateTaskTitle = () => {
-        todolistAPI.updateTask(todolistId, taskId, title)
+        todolistAPI.updateTask(todolistId, taskId, {title, deadline, description, priority, startDate, status})
             .then((res) => setState(res.data))
     }
 
@@ -188,14 +193,24 @@ export const UpdateTaskTitle = () => {
                 <input placeholder={'todolistId'} value={todolistId} onChange={(e) => {
                     setTodolistId(e.currentTarget.value)
                 }}/>
-                <input placeholder={'taskId'} value={todolistId} onChange={(e) => {
+                <input placeholder={'taskId'} value={taskId} onChange={(e) => {
                     setTaskId(e.currentTarget.value)
                 }}/>
                 <input placeholder={'title'} value={title} onChange={(e) => {
                     setTitle(e.currentTarget.value)
                 }}/>
-                <button onClick={updateTaskTitle}>update task title</button>
+                <input placeholder={'description'} value={description} onChange={(e) => {
+                    setDescription(e.currentTarget.value)
+                }}/>
+                <input placeholder={'status'} value={status} onChange={(e) => {
+                    setStatus(+(e.currentTarget.value))
+                }}/>
+                <input placeholder={'priority'} value={priority} onChange={(e) => {
+                    setPriority(+(e.currentTarget.value))
+                }}/>
             </div>
+            <button onClick={updateTaskTitle}>update task title</button>
+
             {JSON.stringify(state)}
         </div>
     )
