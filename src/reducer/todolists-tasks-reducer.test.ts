@@ -97,7 +97,7 @@ test('property with todolistId should be deleted', () => {
                 deadline: '',
                 addedDate: ''
             },
-        ]
+        ],
     }
 
     const action = removeTodolistAC('todolistId2')
