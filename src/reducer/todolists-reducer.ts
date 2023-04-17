@@ -1,5 +1,6 @@
 import {v1} from "uuid";
-import {TodolistType} from "../api/todolist-api";
+import {todolistAPI, TodolistType} from "../api/todolist-api";
+import {Dispatch} from "redux";
 
 export type TodolistDomainType = TodolistType & { filter: FilterValueType }
 export type FilterValueType = 'all' | 'active' | 'completed'
@@ -9,16 +10,16 @@ type ActionType =
     | ReturnType<typeof removeTodolistAC>
     | ReturnType<typeof changeTodolistFilterAC>
     | ReturnType<typeof changeTodolistTitleAC>
+    | ReturnType<typeof setTodolists>
 
 
 export const todolistId_1 = v1()
 export const todolistId_2 = v1()
 
 const initialTodolistsState: TodolistDomainType[] = [
-    {id: todolistId_1, title: 'What to learn', filter: 'all', addedDate: '', order:0},
-    {id: todolistId_2, title: 'What to buy', filter: 'all', addedDate: '', order:0},
+    // {id: todolistId_1, title: 'What to learn', filter: 'all', addedDate: '', order: 0},
+    // {id: todolistId_2, title: 'What to buy', filter: 'all', addedDate: '', order: 0},
 ]
-
 
 
 export const todolistsReducer = (state = initialTodolistsState, action: ActionType): TodolistDomainType[] => {
@@ -35,7 +36,9 @@ export const todolistsReducer = (state = initialTodolistsState, action: ActionTy
         case "CHANGE-TODOLIST-FILTER": {
             return state.map(tl => tl.id === action.id ? {...tl, filter: action.filter} : tl)
         }
-
+        case "SET-TODOLISTS": {
+            return action.todos.map(tl => ({...tl, filter: 'all'}))
+        }
         default:
             return state
     }
@@ -49,3 +52,12 @@ export const changeTodolistFilterAC = (id: string, filter: FilterValueType) => (
 export const changeTodolistTitleAC = (id: string, title: string) => ({
     type: 'CHANGE-TODOLIST-TITLE', id, title
 } as const)
+
+export const setTodolists = (todos: TodolistType[]) => ({type: 'SET-TODOLISTS', todos} as const)
+
+export const getTodolists = (dispatch: Dispatch) => {
+    todolistAPI.getTodolists()
+        .then((res) => {
+            dispatch(setTodolists(res.data))
+        })
+}

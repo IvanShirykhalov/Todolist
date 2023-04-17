@@ -3,8 +3,8 @@ import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Button, IconButton, List} from "@mui/material";
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./reducer/store";
+import {useSelector} from "react-redux";
+import {AppRootStateType, useAppDispatch} from "./reducer/store";
 import {
     changeTodolistFilterAC,
     changeTodolistTitleAC,
@@ -19,7 +19,7 @@ import {TaskStatuses, TaskType} from "./api/todolist-api";
 
 export const Todolist = React.memo((props: TodolistDomainType) => {
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch
     let tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[props.id])
     switch (props.filter) {
         case 'active':

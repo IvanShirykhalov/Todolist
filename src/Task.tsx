@@ -3,8 +3,8 @@ import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./reducer/tas
 import {Checkbox, IconButton, ListItem} from "@mui/material";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import {EditableSpan} from "./EditableSpan";
-import {useDispatch} from "react-redux";
 import {TaskStatuses, TaskType} from "./api/todolist-api";
+import {useAppDispatch} from "./reducer/store";
 
 type TaskPropsType = {
     task: TaskType
@@ -13,7 +13,7 @@ type TaskPropsType = {
 
 export const Task = React.memo((props: TaskPropsType) => {
 
-        const dispatch = useDispatch()
+        const dispatch = useAppDispatch
 
         const onRemoveTask = () => dispatch(removeTaskAC(props.task.id, props.todolistId))
 

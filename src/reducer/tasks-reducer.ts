@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import {addTodolistAC, removeTodolistAC, todolistId_1, todolistId_2} from "./todolists-reducer";
+import {addTodolistAC, removeTodolistAC, setTodolists} from "./todolists-reducer";
 import {TaskPriorities, TaskStatuses} from "../api/todolist-api";
 import {TasksStateType} from "../App";
 
@@ -10,134 +10,134 @@ type ActionType =
     | ReturnType<typeof changeTaskTitleAC>
     | ReturnType<typeof addTodolistAC>
     | ReturnType<typeof removeTodolistAC>
+    | ReturnType<typeof setTodolists>
 
 
 const initialTaskState: TasksStateType = {
-    [todolistId_1]: [
-        {
-            id: v1(),
-            title: "HTML&CSS",
-            status: TaskStatuses.Completed,
-            addedDate: '',
-            deadline: '',
-            order: 0,
-            priority: TaskPriorities.Low,
-            startDate: '',
-            description: '',
-            todoListId: todolistId_1
-        },
-        {
-            id: v1(),
-            title: "JS",
-            status: TaskStatuses.Completed,
-            addedDate: '',
-            deadline: '',
-            order: 0,
-            priority: TaskPriorities.Low,
-            startDate: '',
-            description: '',
-            todoListId: todolistId_1
-        },
-        {
-            id: v1(),
-            title: "ReactJS",
-            status: TaskStatuses.New,
-            addedDate: '',
-            deadline: '',
-            order: 0,
-            priority: TaskPriorities.Low,
-            startDate: '',
-            description: '',
-            todoListId: todolistId_1
-        },
-        {
-            id: v1(),
-            title: "NodeJS",
-            status: TaskStatuses.New,
-            addedDate: '',
-            deadline: '',
-            order: 0,
-            priority: TaskPriorities.Low,
-            startDate: '',
-            description: '',
-            todoListId: todolistId_1
-        },
-        {
-            id: v1(),
-            title: "Angular",
-            status: TaskStatuses.New,
-            addedDate: '',
-            deadline: '',
-            order: 0,
-            priority: TaskPriorities.Low,
-            startDate: '',
-            description: '',
-            todoListId: todolistId_1
-        },
-    ],
-    [todolistId_2]: [
-        {
-            id: v1(),
-            title: "Milk",
-            status: TaskStatuses.Completed,
-            addedDate: '',
-            deadline: '',
-            order: 0,
-            priority: TaskPriorities.Low,
-            startDate: '',
-            description: '',
-            todoListId: todolistId_2
-        },
-        {
-            id: v1(),
-            title: "Water",
-            status: TaskStatuses.Completed,
-            addedDate: '',
-            deadline: '',
-            order: 0,
-            priority: TaskPriorities.Low,
-            startDate: '',
-            description: '',
-            todoListId: todolistId_2
-        },
-        {
-            id: v1(),
-            title: "Apples",
-            status: TaskStatuses.New,
-            addedDate: '',
-            deadline: '',
-            order: 0,
-            priority: TaskPriorities.Low,
-            startDate: '',
-            description: '',
-            todoListId: todolistId_2
-        },
-        {
-            id: v1(),
-            title: "Tomato",
-            status: TaskStatuses.New,
-            addedDate: '',
-            deadline: '',
-            order: 0,
-            priority: TaskPriorities.Low,
-            startDate: '',
-            description: '',
-            todoListId: todolistId_2
-        },
-        {
-            id: v1(),
-            title: "Sugar",
-            status: TaskStatuses.Completed,
-            addedDate: '',
-            deadline: '',
-            order: 0,
-            priority: TaskPriorities.Low,
-            startDate: '',
-            description: '',
-            todoListId: todolistId_2
-        },
-    ],
-
+    // [todolistId_1]: [
+    //     {
+    //         id: v1(),
+    //         title: "HTML&CSS",
+    //         status: TaskStatuses.Completed,
+    //         addedDate: '',
+    //         deadline: '',
+    //         order: 0,
+    //         priority: TaskPriorities.Low,
+    //         startDate: '',
+    //         description: '',
+    //         todoListId: todolistId_1
+    //     },
+    //     {
+    //         id: v1(),
+    //         title: "JS",
+    //         status: TaskStatuses.Completed,
+    //         addedDate: '',
+    //         deadline: '',
+    //         order: 0,
+    //         priority: TaskPriorities.Low,
+    //         startDate: '',
+    //         description: '',
+    //         todoListId: todolistId_1
+    //     },
+    //     {
+    //         id: v1(),
+    //         title: "ReactJS",
+    //         status: TaskStatuses.New,
+    //         addedDate: '',
+    //         deadline: '',
+    //         order: 0,
+    //         priority: TaskPriorities.Low,
+    //         startDate: '',
+    //         description: '',
+    //         todoListId: todolistId_1
+    //     },
+    //     {
+    //         id: v1(),
+    //         title: "NodeJS",
+    //         status: TaskStatuses.New,
+    //         addedDate: '',
+    //         deadline: '',
+    //         order: 0,
+    //         priority: TaskPriorities.Low,
+    //         startDate: '',
+    //         description: '',
+    //         todoListId: todolistId_1
+    //     },
+    //     {
+    //         id: v1(),
+    //         title: "Angular",
+    //         status: TaskStatuses.New,
+    //         addedDate: '',
+    //         deadline: '',
+    //         order: 0,
+    //         priority: TaskPriorities.Low,
+    //         startDate: '',
+    //         description: '',
+    //         todoListId: todolistId_1
+    //     },
+    // ],
+    // [todolistId_2]: [
+    //     {
+    //         id: v1(),
+    //         title: "Milk",
+    //         status: TaskStatuses.Completed,
+    //         addedDate: '',
+    //         deadline: '',
+    //         order: 0,
+    //         priority: TaskPriorities.Low,
+    //         startDate: '',
+    //         description: '',
+    //         todoListId: todolistId_2
+    //     },
+    //     {
+    //         id: v1(),
+    //         title: "Water",
+    //         status: TaskStatuses.Completed,
+    //         addedDate: '',
+    //         deadline: '',
+    //         order: 0,
+    //         priority: TaskPriorities.Low,
+    //         startDate: '',
+    //         description: '',
+    //         todoListId: todolistId_2
+    //     },
+    //     {
+    //         id: v1(),
+    //         title: "Apples",
+    //         status: TaskStatuses.New,
+    //         addedDate: '',
+    //         deadline: '',
+    //         order: 0,
+    //         priority: TaskPriorities.Low,
+    //         startDate: '',
+    //         description: '',
+    //         todoListId: todolistId_2
+    //     },
+    //     {
+    //         id: v1(),
+    //         title: "Tomato",
+    //         status: TaskStatuses.New,
+    //         addedDate: '',
+    //         deadline: '',
+    //         order: 0,
+    //         priority: TaskPriorities.Low,
+    //         startDate: '',
+    //         description: '',
+    //         todoListId: todolistId_2
+    //     },
+    //     {
+    //         id: v1(),
+    //         title: "Sugar",
+    //         status: TaskStatuses.Completed,
+    //         addedDate: '',
+    //         deadline: '',
+    //         order: 0,
+    //         priority: TaskPriorities.Low,
+    //         startDate: '',
+    //         description: '',
+    //         todoListId: todolistId_2
+    //     },
+    // ],
 }
 
 export const tasksReducer = (state = initialTaskState, action: ActionType): TasksStateType => {
@@ -182,6 +182,13 @@ export const tasksReducer = (state = initialTaskState, action: ActionType): Task
             const copy = {...state}
             delete copy[action.id]
             return copy
+        }
+        case "SET-TODOLISTS": {
+            const stateCopy = {...state}
+            action.todos.forEach((tl) => {
+                stateCopy[tl.id] = []
+            })
+            return stateCopy;
         }
         default:
             return state
