@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Button, IconButton, List} from "@mui/material";
@@ -12,14 +12,14 @@ import {
     removeTodolistAC,
     TodolistDomainType
 } from "./reducer/todolists-reducer";
-import {addTaskAC} from "./reducer/tasks-reducer";
+import {addTaskAC, getTasks} from "./reducer/tasks-reducer";
 import {Task} from "./Task";
 import {TaskStatuses, TaskType} from "./api/todolist-api";
 
 
 export const Todolist = React.memo((props: TodolistDomainType) => {
 
-    const dispatch = useAppDispatch
+    const dispatch = useAppDispatch()
     let tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[props.id])
     switch (props.filter) {
         case 'active':
@@ -37,6 +37,10 @@ export const Todolist = React.memo((props: TodolistDomainType) => {
         dispatch(removeTodolistAC(props.id)), [dispatch, props.id])
     const addTask = useCallback((title: string) =>
         dispatch(addTaskAC(title, props.id)), [dispatch, props.id])
+
+    useEffect(() => {
+        dispatch(getTasks(props.id))
+    }, [])
 
     return (
         <div>

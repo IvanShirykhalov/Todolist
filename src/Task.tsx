@@ -13,7 +13,7 @@ type TaskPropsType = {
 
 export const Task = React.memo((props: TaskPropsType) => {
 
-        const dispatch = useAppDispatch
+        const dispatch = useAppDispatch()
 
         const onRemoveTask = () => dispatch(removeTaskAC(props.task.id, props.todolistId))
 

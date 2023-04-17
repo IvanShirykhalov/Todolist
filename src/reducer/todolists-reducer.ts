@@ -55,7 +55,7 @@ export const changeTodolistTitleAC = (id: string, title: string) => ({
 
 export const setTodolists = (todos: TodolistType[]) => ({type: 'SET-TODOLISTS', todos} as const)
 
-export const getTodolists = (dispatch: Dispatch) => {
+export const getTodolists = () => (dispatch: Dispatch) => {
     todolistAPI.getTodolists()
         .then((res) => {
             dispatch(setTodolists(res.data))
