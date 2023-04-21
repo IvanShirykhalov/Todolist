@@ -147,18 +147,7 @@ export const tasksReducer = (state = initialTaskState, action: ActionType): Task
         case "ADD-TASK":
             return {
                 ...state,
-                [action.todolistId]: [{
-                    id: v1(),
-                    title: action.title,
-                    status: TaskStatuses.New,
-                    order: 0,
-                    priority: TaskPriorities.Low,
-                    startDate: '',
-                    deadline: '',
-                    description: '',
-                    todoListId: action.todolistId,
-                    addedDate: ''
-                }, ...state[action.todolistId]]
+                [action.todolistId]: [action.task, ...state[action.todolistId]]
             }
         case "REMOVE-TASK":
             return {...state, [action.todolistId]: state[action.todolistId].filter(t => t.id !== action.id)}
@@ -199,7 +188,7 @@ export const tasksReducer = (state = initialTaskState, action: ActionType): Task
     }
 }
 
-export const addTaskAC = (title: string, todolistId: string) => ({type: 'ADD-TASK', title, todolistId} as const)
+export const addTaskAC = (task: TaskType, todolistId: string) => ({type: 'ADD-TASK', task, todolistId} as const)
 
 export const removeTaskAC = (id: string, todolistId: string) => ({type: 'REMOVE-TASK', id, todolistId} as const)
 
@@ -217,5 +206,19 @@ export const getTasks = (todolistId: string) => (dispatch: Dispatch) => {
     todolistAPI.getTasks(todolistId)
         .then((res) => {
             dispatch(setTasksAC(todolistId, res.data.items))
+        })
+}
+
+export const deleteTask = (taskId: string, todolistId: string) => (dispatch: Dispatch) => {
+    todolistAPI.deleteTask(todolistId, taskId)
+        .then((res) => {
+            dispatch(removeTaskAC(taskId, todolistId))
+        })
+}
+
+export const createTask = (todolistId: string, title: string) => (dispatch: Dispatch) => {
+    todolistAPI.createTask(todolistId, title)
+        .then((res) => {
+            dispatch(addTaskAC(res.data.data.item, todolistId))
         })
 }
