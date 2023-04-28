@@ -1,5 +1,5 @@
 import React, {ChangeEvent} from 'react';
-import {changeTaskStatusAC, changeTaskTitleAC, deleteTask} from "./reducer/tasks-reducer";
+import {changeTaskTitleAC, deleteTask, updateTaskStatus, updateTaskTitle} from "./reducer/tasks-reducer";
 import {Checkbox, IconButton, ListItem} from "@mui/material";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import {EditableSpan} from "./EditableSpan";
@@ -18,9 +18,9 @@ export const Task = React.memo((props: TaskPropsType) => {
         const removeTask = () => dispatch(deleteTask(props.task.id, props.todolistId))
 
         const onChangeTaskStatus = (e: ChangeEvent<HTMLInputElement>) =>
-            dispatch(changeTaskStatusAC(props.task.id, props.todolistId, e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New))
+            dispatch(updateTaskStatus(props.task.id, props.todolistId, e.currentTarget.checked ? TaskStatuses.New : TaskStatuses.Completed))
 
-        const onChangeTitle = (title: string) => dispatch(changeTaskTitleAC(props.task.id, props.todolistId, title))
+        const onChangeTitle = (title: string) => dispatch(updateTaskTitle(props.task.id, props.todolistId, title))
 
 
         return (

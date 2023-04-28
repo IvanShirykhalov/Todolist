@@ -3,7 +3,7 @@ import {Todolist} from "./Todolist";
 import {AddItemForm} from "./AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
-import {addTodolistAC, getTodolists, TodolistDomainType} from "./reducer/todolists-reducer";
+import {createTodolist, getTodolists, TodolistDomainType} from "./reducer/todolists-reducer";
 import {useAppDispatch, useAppSelector} from "./reducer/store";
 import {TaskType} from "./api/todolist-api";
 
@@ -19,7 +19,7 @@ function App() {
     const todolists = useAppSelector<TodolistDomainType[]>(state => state.todolists)
 
 
-    const addTodolist = useCallback((title: string) => dispatch(addTodolistAC(title)), [dispatch])
+    const addTodolist = useCallback((title: string) => dispatch(createTodolist(title)), [dispatch])
 
     useEffect(() => {
         dispatch(getTodolists())

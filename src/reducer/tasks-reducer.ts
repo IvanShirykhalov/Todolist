@@ -1,8 +1,9 @@
 import {v1} from "uuid";
 import {addTodolistAC, removeTodolistAC, setTodolists} from "./todolists-reducer";
-import {TaskPriorities, TaskStatuses, TaskType, todolistAPI} from "../api/todolist-api";
+import {TaskPriorities, TaskStatuses, TaskType, todolistAPI, UpdateTaskType} from "../api/todolist-api";
 import {TasksStateType} from "../App";
 import {Dispatch} from "redux";
+import {AppRootStateType} from "./store";
 
 type ActionType =
     | ReturnType<typeof addTaskAC>
@@ -221,4 +222,43 @@ export const createTask = (todolistId: string, title: string) => (dispatch: Disp
         .then((res) => {
             dispatch(addTaskAC(res.data.data.item, todolistId))
         })
+}
+
+export const updateTaskStatus = (todolistId: string, taskId: string, status: TaskStatuses) => (dispatch: Dispatch, getState: () => AppRootStateType) => {
+
+    const task = getState().tasks[todolistId].find(t => t.id === taskId)
+
+    if (task) {
+        const model: UpdateTaskType = {
+            status,
+            title: task.title,
+            startDate: task.startDate,
+            priority: task.priority,
+            deadline: task.deadline,
+            description: task.description
+        }
+        todolistAPI.updateTask(todolistId, taskId, model)
+            .then((res) => {
+                dispatch(changeTaskStatusAC(taskId, todolistId, status))
+            })
+    }
+
+}
+export const updateTaskTitle = (taskId: string, todolistId: string, title: string) => (dispatch: Dispatch, getState: () => AppRootStateType) => {
+    const task = getState().tasks[todolistId].find(t => t.id === taskId)
+
+    if (task) {
+        const model: UpdateTaskType = {
+            status: task.status,
+            title,
+            startDate: task.startDate,
+            priority: task.priority,
+            deadline: task.deadline,
+            description: task.description
+        }
+        todolistAPI.updateTask(todolistId, taskId, model)
+            .then((res) => {
+                dispatch(changeTaskTitleAC(taskId, todolistId, title))
+            })
+    }
 }

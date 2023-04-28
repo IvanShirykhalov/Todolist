@@ -79,7 +79,7 @@ export type TaskType = {
     addedDate: string
 }
 
-type UpdateTaskType = {
+export type UpdateTaskType = {
     title: string
     description: string
     status: number

@@ -6,10 +6,10 @@ import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import {useAppDispatch, useAppSelector} from "./reducer/store";
 import {
     changeTodolistFilterAC,
-    changeTodolistTitleAC,
     FilterValueType,
-    removeTodolistAC,
-    TodolistDomainType
+    removeTodolist,
+    TodolistDomainType,
+    updateTodolistTitle
 } from "./reducer/todolists-reducer";
 import {createTask, getTasks} from "./reducer/tasks-reducer";
 import {Task} from "./Task";
@@ -32,10 +32,10 @@ export const Todolist = React.memo((props: TodolistDomainType) => {
         dispatch(changeTodolistFilterAC(props.id, filter)), [dispatch, props.id])
 
     const changeTodolistTitle = useCallback((title: string) =>
-        dispatch(changeTodolistTitleAC(props.id, title)), [dispatch, props.id])
+        dispatch(updateTodolistTitle(props.id, title)), [dispatch, props.id])
 
-    const removeTodolist = useCallback(() =>
-        dispatch(removeTodolistAC(props.id)), [dispatch, props.id])
+    const deleteTodolist = useCallback(() =>
+        dispatch(removeTodolist(props.id)), [dispatch, props.id])
 
     const addTask = useCallback((title: string) =>
         dispatch(createTask(props.id, title)), [dispatch, props.id])
@@ -48,7 +48,7 @@ export const Todolist = React.memo((props: TodolistDomainType) => {
     return (
         <div>
             <h3>
-                <IconButton onClick={removeTodolist} size={'large'}>
+                <IconButton onClick={deleteTodolist} size={'large'}>
                     <ClearOutlinedIcon/>
                 </IconButton>
                 <EditableSpan title={props.title} onChangeTitle={changeTodolistTitle}/>
