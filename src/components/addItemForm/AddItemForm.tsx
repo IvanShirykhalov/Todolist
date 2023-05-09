@@ -22,6 +22,8 @@ export const AddItemForm = React.memo((props: AddItemFormType) => {
     }
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.currentTarget.value)
 
+    const onBlurHandler = () => setError(null)
+
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         if (error !== null) {
@@ -39,11 +41,11 @@ export const AddItemForm = React.memo((props: AddItemFormType) => {
                 onChange={onChangeHandler}
                 onKeyPress={onKeyPressHandler}
                 onKeyUp={onKeyPressHandler}
+                onBlur={onBlurHandler}
                 className={error ? 'error' : ''}/>
             <IconButton onClick={addItem}>
                 <Add/>
             </IconButton>
-            {/*<Button color={'inherit'} onClick={addItem} endIcon={<PlusOneIcon/>}/>*/}
             {error && <div className={'error-message'}>{error}</div>}
         </div>
     );

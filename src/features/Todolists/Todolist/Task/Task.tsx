@@ -1,10 +1,10 @@
 import React, {ChangeEvent} from 'react';
-import {deleteTask, updateTask} from "./reducer/tasks-reducer";
+import {deleteTask, updateTask} from "./tasks-reducer";
 import {Checkbox, IconButton, ListItem} from "@mui/material";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
-import {EditableSpan} from "./EditableSpan";
-import {TaskStatuses, TaskType} from "./api/todolist-api";
-import {useAppDispatch} from "./reducer/store";
+import {EditableSpan} from "../../../../components/editableSpan/EditableSpan";
+import {TaskStatuses, TaskType} from "../../../../api/todolist-api";
+import {useAppDispatch} from "../../../../app/store";
 
 type TaskPropsType = {
     task: TaskType

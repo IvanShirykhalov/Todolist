@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import {red} from "@mui/material/colors";
 import {createTheme, ThemeProvider} from "@mui/material";
-import App from "./App";
+import App from "./app/App";
 import {Provider} from "react-redux";
-import {store} from "./reducer/store";
+import {store} from "./app/store";
 
 const theme = createTheme({
     palette: {
