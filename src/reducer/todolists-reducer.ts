@@ -16,10 +16,7 @@ type ActionType =
 export const todolistId_1 = v1()
 export const todolistId_2 = v1()
 
-const initialTodolistsState: TodolistDomainType[] = [
-    // {id: todolistId_1, title: 'What to learn', filter: 'all', addedDate: '', order: 0},
-    // {id: todolistId_2, title: 'What to buy', filter: 'all', addedDate: '', order: 0},
-]
+const initialTodolistsState: TodolistDomainType[] = []
 
 
 export const todolistsReducer = (state = initialTodolistsState, action: ActionType): TodolistDomainType[] => {
@@ -65,7 +62,7 @@ export const getTodolists = () => (dispatch: Dispatch) => {
 export const createTodolist = (title: string) => (dispatch: Dispatch) => {
     todolistAPI.createTodolist(title)
         .then((res) => {
-            dispatch(addTodolistAC(title))
+            dispatch(addTodolistAC(res.data.data.item.title))
         })
 }
 
