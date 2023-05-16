@@ -1,6 +1,6 @@
-import {v1} from "uuid";
 import {todolistAPI, TodolistType} from "../../../api/todolist-api";
 import {Dispatch} from "redux";
+import {setStatusAC} from "../../../app/app-reducer";
 
 export type TodolistDomainType = TodolistType & { filter: FilterValueType }
 export type FilterValueType = 'all' | 'active' | 'completed'
@@ -11,6 +11,7 @@ type ActionsType =
     | ReturnType<typeof changeTodolistFilterAC>
     | ReturnType<typeof changeTodolistTitleAC>
     | ReturnType<typeof setTodolists>
+    | ReturnType<typeof setStatusAC>
 
 
 const initialTodolistsState: TodolistDomainType[] = []
@@ -49,30 +50,39 @@ export const changeTodolistTitleAC = (id: string, title: string) => ({
 
 export const setTodolists = (todos: TodolistType[]) => ({type: 'SET-TODOLISTS', todos} as const)
 
-export const getTodolists = () => (dispatch: Dispatch<ActionsType>) => {
+
+export const fetchTodolists = () => (dispatch: Dispatch<ActionsType>) => {
+    dispatch(setStatusAC('loading'))
     todolistAPI.getTodolists()
         .then((res) => {
             dispatch(setTodolists(res.data))
+            dispatch(setStatusAC('idle'))
         })
 }
 
 export const createTodolist = (title: string) => (dispatch: Dispatch<ActionsType>) => {
+    dispatch(setStatusAC('loading'))
     todolistAPI.createTodolist(title)
         .then((res) => {
             dispatch(addTodolistAC(res.data.data.item))
+            dispatch(setStatusAC('idle'))
         })
 }
 
 export const removeTodolist = (id: string) => (dispatch: Dispatch<ActionsType>) => {
+    dispatch(setStatusAC('loading'))
     todolistAPI.deleteTodolist(id)
         .then((res) => {
             dispatch(removeTodolistAC(id))
+            dispatch(setStatusAC('idle'))
         })
 }
 
 export const updateTodolistTitle = (id: string, title: string) => (dispatch: Dispatch<ActionsType>) => {
+    dispatch(setStatusAC('loading'))
     todolistAPI.updateTodolist(id, title)
         .then((res) => {
             dispatch(changeTodolistTitleAC(id, title))
+            dispatch(setStatusAC('idle'))
         })
 }

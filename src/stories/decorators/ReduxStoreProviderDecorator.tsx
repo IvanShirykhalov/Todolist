@@ -4,16 +4,18 @@ import {combineReducers, createStore} from "redux";
 import {tasksReducer} from "../../features/Todolists/Todolist/Task/tasks-reducer";
 import {todolistsReducer} from "../../features/Todolists/Todolist/todolists-reducer";
 import {TaskPriorities, TaskStatuses} from "../../api/todolist-api";
+import {appReducer} from "../../app/app-reducer";
 
 const rootReducer = combineReducers({
     tasks: tasksReducer,
-    todolists: todolistsReducer
+    todolists: todolistsReducer,
+    app: appReducer
 })
 
 const initialGlobalState = {
     todolists: [
-        {id: 'todolistId1', title: 'What to learn', filter: 'all', addedDate:'', order:0},
-        {id: 'todolistId2', title: 'What to buy', filter: 'all', addedDate:'', order:0},
+        {id: 'todolistId1', title: 'What to learn', filter: 'all', addedDate: '', order: 0},
+        {id: 'todolistId2', title: 'What to buy', filter: 'all', addedDate: '', order: 0},
     ],
     tasks: {
         ['todolistId1']: [
@@ -92,7 +94,12 @@ const initialGlobalState = {
                 addedDate: ''
             },
         ],
-    }
+
+    },
+    app: {
+        status: 'loading',
+        error: null
+    },
 }
 
 export const storyBookStore = createStore(rootReducer, initialGlobalState as AppRootStateType)

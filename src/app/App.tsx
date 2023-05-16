@@ -1,12 +1,25 @@
 import React from 'react';
-import {AppBar, Button, Container, IconButton, Toolbar, Typography} from "@mui/material";
-import {Menu} from "@mui/icons-material";
+import AppBar from "@mui/material/AppBar";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import IconButton from "@mui/material/IconButton";
+import LinearProgress from "@mui/material/LinearProgress";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/icons-material/Menu";
 import {TodolistsList} from "../features/Todolists/TodolistsList";
+import {useAppSelector} from "./store";
+import {RequestStatusType} from "./app-reducer";
+import {ErrorSnackbar} from "../components/errorSnackbar/ErrorSnackbar";
 
 
-function App() {
+export function App() {
+
+    const status = useAppSelector<RequestStatusType>(state => state.app.status)
+
     return (
         <div className="App">
+            <ErrorSnackbar/>
             <AppBar position={'static'} color={'transparent'}>
                 <Toolbar>
                     <IconButton edge={'start'} color={'inherit'} aria-label={'menu'}>
@@ -17,6 +30,7 @@ function App() {
                     </Typography>
                     <Button color={'inherit'}>Login</Button>
                 </Toolbar>
+                {status === 'loading' && <LinearProgress color="secondary"/>}
             </AppBar>
             <Container fixed>
                 <TodolistsList/>
@@ -25,5 +39,3 @@ function App() {
     );
 }
 
-
-export default App;

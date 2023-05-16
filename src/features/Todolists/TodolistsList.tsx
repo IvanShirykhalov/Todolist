@@ -1,5 +1,6 @@
-import {createTodolist, getTodolists, TodolistDomainType} from "./Todolist/todolists-reducer";
-import {Grid, Paper} from "@mui/material";
+import {createTodolist, fetchTodolists, TodolistDomainType} from "./Todolist/todolists-reducer";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
 import {Todolist} from "./Todolist/Todolist";
 import React, {useCallback, useEffect} from "react";
 import {AddItemForm} from "../../components/addItemForm/AddItemForm";
@@ -11,7 +12,7 @@ export const TodolistsList = React.memo(() => {
     const todolists = useAppSelector<TodolistDomainType[]>(state => state.todolists)
 
     useEffect(() => {
-        dispatch(getTodolists())
+        dispatch(fetchTodolists())
     }, [])
 
     const addTodolist = useCallback((title: string) => dispatch(createTodolist(title)), [dispatch])

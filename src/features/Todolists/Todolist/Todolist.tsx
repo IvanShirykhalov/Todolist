@@ -1,7 +1,9 @@
 import React, {useCallback, useEffect} from 'react';
 import {AddItemForm} from "../../../components/addItemForm/AddItemForm";
 import {EditableSpan} from "../../../components/editableSpan/EditableSpan";
-import {Button, IconButton, List} from "@mui/material";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import List from "@mui/material/List";
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import {useAppDispatch, useAppSelector} from "../../../app/store";
 import {
