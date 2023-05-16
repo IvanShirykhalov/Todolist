@@ -1,8 +1,15 @@
 import {addTodolistAC, removeTodolistAC, setTodolists} from "../todolists-reducer";
-import {TaskPriorities, TaskStatuses, TaskType, todolistAPI, UpdateTaskModelType} from "../../../../api/todolist-api";
+import {
+    ResultCode,
+    TaskPriorities,
+    TaskStatuses,
+    TaskType,
+    todolistAPI,
+    UpdateTaskModelType
+} from "../../../../api/todolist-api";
 import {Dispatch} from "redux";
 import {AppRootStateType} from "../../../../app/store";
-import {setStatusAC} from "../../../../app/app-reducer";
+import {setErrorAC, setStatusAC} from "../../../../app/app-reducer";
 
 type ActionsType =
     | ReturnType<typeof addTaskAC>
@@ -13,6 +20,7 @@ type ActionsType =
     | ReturnType<typeof setTasksAC>
     | ReturnType<typeof updateTaskAC>
     | ReturnType<typeof setStatusAC>
+    | ReturnType<typeof setErrorAC>
 
 export type TasksStateType = {
     [key: string]: TaskType[]
@@ -73,12 +81,16 @@ export const updateTaskAC = (id: string, todolistId: string, model: UpdateDomain
 
 export const setTasksAC = (todolistId: string, tasks: TaskType[]) => ({type: 'SET-TASKS', todolistId, tasks} as const)
 
+
+
+
+
 export const getTasks = (todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
     dispatch(setStatusAC('loading'))
     todolistAPI.getTasks(todolistId)
         .then((res) => {
             dispatch(setTasksAC(todolistId, res.data.items))
-            dispatch(setStatusAC('idle'))
+            dispatch(setStatusAC('succeeded'))
         })
 }
 
@@ -87,7 +99,7 @@ export const deleteTask = (taskId: string, todolistId: string) => (dispatch: Dis
     todolistAPI.deleteTask(todolistId, taskId)
         .then((res) => {
             dispatch(removeTaskAC(taskId, todolistId))
-            dispatch(setStatusAC('idle'))
+            dispatch(setStatusAC('succeeded'))
         })
 }
 
@@ -95,8 +107,18 @@ export const createTask = (todolistId: string, title: string) => (dispatch: Disp
     dispatch(setStatusAC('loading'))
     todolistAPI.createTask(todolistId, title)
         .then((res) => {
-            dispatch(addTaskAC(res.data.data.item, todolistId))
-            dispatch(setStatusAC('idle'))
+            if (res.data.resultCode === ResultCode.OK) {
+                dispatch(addTaskAC(res.data.data.item, todolistId))
+                dispatch(setStatusAC('succeeded'))
+            } else {
+                try {
+                    dispatch(setErrorAC(res.data.messages[0]))
+                } catch (e) {
+                    dispatch(setErrorAC((e as Error).message))
+                }
+                dispatch(setStatusAC('failed'))
+            }
+
         })
 }
 
@@ -128,7 +150,7 @@ export const updateTask = (taskId: string, todolistId: string, domainModel: Upda
             todolistAPI.updateTask(todolistId, taskId, apiModel)
                 .then((res) => {
                     dispatch(updateTaskAC(taskId, todolistId, domainModel))
-                    dispatch(setStatusAC('idle'))
+                    dispatch(setStatusAC('succeeded'))
                 })
         }
     }

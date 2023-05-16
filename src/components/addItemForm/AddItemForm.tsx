@@ -4,6 +4,7 @@ import {Add} from "@mui/icons-material";
 
 type AddItemFormType = {
     addItem: (title: string) => void
+    disabled?: boolean
 }
 
 export const AddItemForm = React.memo((props: AddItemFormType) => {
@@ -42,8 +43,10 @@ export const AddItemForm = React.memo((props: AddItemFormType) => {
                 onKeyPress={onKeyPressHandler}
                 onKeyUp={onKeyPressHandler}
                 onBlur={onBlurHandler}
-                className={error ? 'error' : ''}/>
-            <IconButton onClick={addItem}>
+                className={error ? 'error' : ''}
+                disabled={props.disabled}
+            />
+            <IconButton onClick={addItem} disabled={props.disabled}>
                 <Add/>
             </IconButton>
             {error && <div className={'error-message'}>{error}</div>}

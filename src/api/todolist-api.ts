@@ -93,3 +93,9 @@ type GetTaskResponseType = {
     totalCount: number
     items: TaskType[]
 }
+
+export enum ResultCode {
+    OK = 0,
+    Error = 1,
+    Captcha = 10,
+}
