@@ -5,7 +5,7 @@ const initialState = {
     error: null as string | null
 }
 
-type AppActionsType = ReturnType<typeof setStatusAC> | ReturnType<typeof setErrorAC>
+export type AppActionsType = ReturnType<typeof setStatusAC> | ReturnType<typeof setErrorAC>
 
 type InitialStateType = typeof initialState
 

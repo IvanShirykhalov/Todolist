@@ -1,4 +1,5 @@
 import axios, {AxiosResponse} from "axios";
+import {string} from "prop-types";
 
 
 const instance = axios.create({
@@ -21,7 +22,7 @@ export const todolistAPI = {
         return instance.delete<ResponseType>(`todo-lists/${todolistId}`)
     },
     updateTodolist(todolistId: string, title: string) {
-        return instance.put<ResponseType>(`todo-lists/${todolistId}`, {title: title})
+        return instance.put<{ title: string }, AxiosResponse<ResponseType>>(`todo-lists/${todolistId}`, {title: title})
     },
     getTasks(todolistId: string) {
         return instance.get<GetTaskResponseType>(`todo-lists/${todolistId}/tasks`)
@@ -37,7 +38,7 @@ export const todolistAPI = {
     },
 }
 
-type ResponseType<T = {}> = {
+export type ResponseType<T = {}> = {
     data: T
     fieldsErrors: string[]
     messages: string[]
