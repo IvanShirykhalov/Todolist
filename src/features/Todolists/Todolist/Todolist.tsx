@@ -57,7 +57,7 @@ export const Todolist = React.memo((props: TodolistDomainType) => {
             </h3>
             <AddItemForm addItem={addTask} disabled={props.entityStatus === 'loading'}/>
             <List>
-                {tasks.map(t => <Task key={t.id} task={t} todolistId={props.id}/>)}
+                {tasks.map(t => <Task key={t.id} task={t} todolistId={props.id} entityStatus={props.entityStatus}/>)}
             </List>
             <div>
                 <Button variant={props.filter === 'all' ? 'contained' : 'outlined'}

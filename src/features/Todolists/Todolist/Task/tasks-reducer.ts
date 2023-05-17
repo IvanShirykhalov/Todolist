@@ -9,7 +9,7 @@ import {
 } from "../../../../api/todolist-api";
 import {Dispatch} from "redux";
 import {AppRootStateType} from "../../../../app/store";
-import {setErrorAC, setStatusAC} from "../../../../app/app-reducer";
+import {RequestStatusType, setErrorAC, setStatusAC} from "../../../../app/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../../../utils/error-utils";
 
 type ActionsType =
@@ -22,6 +22,7 @@ type ActionsType =
     | ReturnType<typeof updateTaskAC>
     | ReturnType<typeof setStatusAC>
     | ReturnType<typeof setErrorAC>
+    | ReturnType<typeof changeTaskStatusAC>
 
 export type TasksStateType = {
     [key: string]: TaskType[]
@@ -64,6 +65,12 @@ export const tasksReducer = (state = initialTaskState, action: ActionsType): Tas
         }
         case "SET-TASKS":
             return {...state, [action.todolistId]: action.tasks}
+        case "CHANGE-TODOLIST-STATUS":
+            return {
+                ...state,
+                [action.todolistId]: state[action.todolistId]
+                    .map(t => t.id === action.id ? {...t, entityStatus: action.status} : t)
+            }
         default:
             return state
     }
@@ -78,6 +85,11 @@ export const updateTaskAC = (id: string, todolistId: string, model: UpdateDomain
     id,
     todolistId,
     model
+} as const)
+
+export const changeTaskStatusAC = (id: string, todolistId: string, status: RequestStatusType) => ({
+    type: 'CHANGE-TODOLIST-STATUS',
+    id, todolistId, status
 } as const)
 
 export const setTasksAC = (todolistId: string, tasks: TaskType[]) => ({type: 'SET-TASKS', todolistId, tasks} as const)
@@ -97,6 +109,7 @@ export const getTasks = (todolistId: string) => async (dispatch: Dispatch<Action
 
 export const deleteTask = (taskId: string, todolistId: string) => async (dispatch: Dispatch<ActionsType>) => {
     dispatch(setStatusAC('loading'))
+    dispatch(changeTaskStatusAC(taskId, todolistId, 'loading'))
 
     try {
         const res = await todolistAPI.deleteTask(todolistId, taskId)
@@ -155,7 +168,6 @@ export const updateTask = (taskId: string, todolistId: string, domainModel: Upda
             }
 
             try {
-
                 const res = await todolistAPI.updateTask(todolistId, taskId, apiModel)
                 if (res.data.resultCode === ResultCode.OK) {
                     dispatch(updateTaskAC(taskId, todolistId, domainModel))

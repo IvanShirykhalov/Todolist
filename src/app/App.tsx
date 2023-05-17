@@ -30,7 +30,7 @@ export function App() {
                     </Typography>
                     <Button color={'inherit'}>Login</Button>
                 </Toolbar>
-                {status === 'loading' && <LinearProgress color="secondary"/>}
+                {status === 'loading' && <LinearProgress color="primary"/>}
             </AppBar>
             <Container fixed>
                 <TodolistsList/>
