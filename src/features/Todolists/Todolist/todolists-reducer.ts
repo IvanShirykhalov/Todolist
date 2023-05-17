@@ -68,59 +68,66 @@ export const changeTodolistStatusAC = (id: string, status: RequestStatusType) =>
 export const setTodolists = (todos: TodolistType[]) => ({type: 'SET-TODOLISTS', todos} as const)
 
 
-export const fetchTodolists = () => (dispatch: Dispatch<ActionsType>) => {
+export const fetchTodolists = () => async (dispatch: Dispatch<ActionsType>) => {
     dispatch(setStatusAC('loading'))
-    todolistAPI.getTodolists()
-        .then((res) => {
-            dispatch(setTodolists(res.data))
+
+    try {
+        const res = await todolistAPI.getTodolists()
+        dispatch(setTodolists(res.data))
+        dispatch(setStatusAC('succeeded'))
+    } catch (e) {
+        handleServerNetworkError((e as Error), dispatch)
+    }
+}
+
+export const createTodolist = (title: string) => async (dispatch: Dispatch<ActionsType>) => {
+    dispatch(setStatusAC('loading'))
+
+    try {
+        const res = await todolistAPI.createTodolist(title)
+        if (res.data.resultCode === ResultCode.OK) {
+            dispatch(addTodolistAC(res.data.data.item))
             dispatch(setStatusAC('succeeded'))
-        })
+        } else {
+            handleServerAppError(res.data, dispatch)
+        }
+    } catch (e) {
+        handleServerNetworkError((e as Error), dispatch)
+    }
 }
 
-export const createTodolist = (title: string) => (dispatch: Dispatch<ActionsType>) => {
-    dispatch(setStatusAC('loading'))
-    todolistAPI.createTodolist(title)
-        .then((res) => {
-            if (res.data.resultCode === ResultCode.OK) {
-                dispatch(addTodolistAC(res.data.data.item))
-                dispatch(setStatusAC('succeeded'))
-            } else {
-                handleServerAppError(res.data, dispatch)
-            }
-        }).catch((e) => {
-        handleServerNetworkError(e, dispatch)
-    })
-}
-
-export const removeTodolist = (id: string) => (dispatch: Dispatch<ActionsType>) => {
+export const removeTodolist = (id: string) => async (dispatch: Dispatch<ActionsType>) => {
     dispatch(setStatusAC('loading'))
     dispatch(changeTodolistStatusAC(id, 'loading'))
-    todolistAPI.deleteTodolist(id)
-        .then((res) => {
-            if (res.data.resultCode === ResultCode.OK) {
-                dispatch(removeTodolistAC(id))
-                dispatch(setStatusAC('succeeded'))
-            } else {
-                handleServerAppError(res.data, dispatch)
-                dispatch(changeTodolistStatusAC(id, 'failed'))
-            }
-        }).catch((e) => {
-        handleServerNetworkError(e, dispatch)
+
+    try {
+        const res = await todolistAPI.deleteTodolist(id)
+
+        if (res.data.resultCode === ResultCode.OK) {
+            dispatch(removeTodolistAC(id))
+            dispatch(setStatusAC('succeeded'))
+        } else {
+            handleServerAppError(res.data, dispatch)
+            dispatch(changeTodolistStatusAC(id, 'failed'))
+        }
+    } catch (e) {
+        handleServerNetworkError((e as Error), dispatch)
         dispatch(changeTodolistStatusAC(id, 'failed'))
-    })
+    }
 }
 
-export const updateTodolistTitle = (id: string, title: string) => (dispatch: Dispatch<ActionsType>) => {
+export const updateTodolistTitle = (id: string, title: string) => async (dispatch: Dispatch<ActionsType>) => {
     dispatch(setStatusAC('loading'))
-    todolistAPI.updateTodolist(id, title)
-        .then((res) => {
-            if (res.data.resultCode === ResultCode.OK) {
-                dispatch(changeTodolistTitleAC(id, title))
-                dispatch(setStatusAC('succeeded'))
-            } else {
-                handleServerAppError(res.data, dispatch)
-            }
-        }).catch((e) => {
-        handleServerNetworkError(e, dispatch)
-    })
+
+    try {
+        const res = await todolistAPI.updateTodolist(id, title)
+        if (res.data.resultCode === ResultCode.OK) {
+            dispatch(changeTodolistTitleAC(id, title))
+            dispatch(setStatusAC('succeeded'))
+        } else {
+            handleServerAppError(res.data, dispatch)
+        }
+    } catch (e) {
+        handleServerNetworkError((e as Error), dispatch)
+    }
 }
