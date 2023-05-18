@@ -17,7 +17,7 @@ type TaskPropsType = {
 
 export const Task = React.memo((props: TaskPropsType) => {
 
-        const entityStatus = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
+        //const entityStatus = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
         const dispatch = useAppDispatch()
 
         const removeTask = () => dispatch(deleteTask(props.task.id, props.todolistId))
@@ -31,12 +31,12 @@ export const Task = React.memo((props: TaskPropsType) => {
         return (
             <ListItem sx={{p: '0'}} key={props.task.id}
                       className={props.task.status === TaskStatuses.Completed ? 'is-done' : ''}>
-                <IconButton onClick={removeTask} disabled={entityStatus === 'loading'}><ClearOutlinedIcon
+                <IconButton onClick={removeTask}><ClearOutlinedIcon
                     fontSize={'small'}/></IconButton>
                 <Checkbox checked={props.task.status === TaskStatuses.Completed} onChange={onChangeTaskStatus}
-                          color={'default'} disabled={entityStatus === 'loading'}/>
+                          color={'default'}/>
                 <EditableSpan title={props.task.title} onChangeTitle={onChangeTitle}
-                              disabled={entityStatus === 'loading'}/>
+                />
             </ListItem>
         )
     }

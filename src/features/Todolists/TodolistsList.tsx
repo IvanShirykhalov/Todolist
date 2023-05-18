@@ -23,7 +23,6 @@ export const TodolistsList = React.memo(({demo = false}: TodolistsListPropsType)
     }, [])
 
     const addTodolist = useCallback((title: string) => dispatch(createTodolist(title)), [dispatch])
-
     return (<>
         <Grid container>
             <AddItemForm addItem={addTodolist}/>
