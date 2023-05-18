@@ -12,8 +12,9 @@ import {useAppSelector} from "./store";
 import {RequestStatusType} from "./app-reducer";
 import {ErrorSnackbar} from "../components/errorSnackbar/ErrorSnackbar";
 
+type AppPropsType = { demo?: boolean }
 
-export function App() {
+export function App({demo = false}: AppPropsType) {
 
     const status = useAppSelector<RequestStatusType>(state => state.app.status)
 
@@ -33,7 +34,7 @@ export function App() {
                 {status === 'loading' && <LinearProgress color="primary"/>}
             </AppBar>
             <Container fixed>
-                <TodolistsList/>
+                <TodolistsList demo={demo}/>
             </Container>
         </div>
     );

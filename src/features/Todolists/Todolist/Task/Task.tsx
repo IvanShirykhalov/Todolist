@@ -13,12 +13,11 @@ import {useSelector} from "react-redux";
 type TaskPropsType = {
     task: TaskType
     todolistId: string
-    entityStatus?: RequestStatusType
 }
 
 export const Task = React.memo((props: TaskPropsType) => {
 
-        let entityStatus = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
+        const entityStatus = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
         const dispatch = useAppDispatch()
 
         const removeTask = () => dispatch(deleteTask(props.task.id, props.todolistId))

@@ -20,7 +20,7 @@ const Template: ComponentStory<typeof AddItemForm> = (args) => <AddItemForm {...
 export const AddItemFormStory = Template.bind({});
 
 AddItemFormStory.args = {
-    addItem: action('Button clicked inside form')
+    addItem: action('Button clicked inside form'),
 };
 
 
@@ -58,11 +58,11 @@ const Template1: ComponentStory<typeof AddItemForm> = (args) => {
                 onChange={onChangeHandler}
                 onKeyPress={onKeyPressHandler}
                 onKeyUp={onKeyPressHandler}
-                className={error ? 'error' : ''}/>
+                className={error ? 'error' : ''}
+            />
             <IconButton onClick={addItem}>
                 <Add/>
             </IconButton>
-            {/*<Button color={'inherit'} onClick={addItem} endIcon={<PlusOneIcon/>}/>*/}
             {error && <div className={'error-message'}>{error}</div>}
         </div>
     );

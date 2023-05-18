@@ -6,12 +6,19 @@ import React, {useCallback, useEffect} from "react";
 import {AddItemForm} from "../../components/addItemForm/AddItemForm";
 import {useAppDispatch, useAppSelector} from "../../app/store";
 
-export const TodolistsList = React.memo(() => {
+type TodolistsListPropsType = {
+    demo?: boolean
+}
+
+export const TodolistsList = React.memo(({demo = false}: TodolistsListPropsType) => {
 
     const dispatch = useAppDispatch()
     const todolists = useAppSelector<TodolistDomainType[]>(state => state.todolists)
 
     useEffect(() => {
+        if (demo) {
+            return
+        }
         dispatch(fetchTodolists())
     }, [])
 
@@ -32,6 +39,7 @@ export const TodolistsList = React.memo(() => {
                                   order={tl.order}
                                   filter={tl.filter}
                                   entityStatus={tl.entityStatus}
+                                  demo={demo}
                         />
                     </Paper>
                 </Grid>

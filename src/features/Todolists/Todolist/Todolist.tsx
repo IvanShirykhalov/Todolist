@@ -18,7 +18,10 @@ import {Task} from "./Task/Task";
 import {TaskStatuses, TaskType} from "../../../api/todolist-api";
 
 
-export const Todolist = React.memo((props: TodolistDomainType) => {
+type TodolistPropsType = TodolistDomainType & { demo?: boolean }
+
+export const Todolist = React.memo(({demo = false, ...props}: TodolistPropsType) => {
+
 
     const dispatch = useAppDispatch()
     let tasks = useAppSelector<TaskType[]>(state => state.tasks[props.id])
@@ -44,6 +47,9 @@ export const Todolist = React.memo((props: TodolistDomainType) => {
 
 
     useEffect(() => {
+        if (demo) {
+            return;
+        }
         dispatch(getTasks(props.id))
     }, [])
 
@@ -57,7 +63,7 @@ export const Todolist = React.memo((props: TodolistDomainType) => {
             </h3>
             <AddItemForm addItem={addTask} disabled={props.entityStatus === 'loading'}/>
             <List>
-                {tasks.map(t => <Task key={t.id} task={t} todolistId={props.id} entityStatus={props.entityStatus}/>)}
+                {tasks.map(t => <Task key={t.id} task={t} todolistId={props.id}/>)}
             </List>
             <div>
                 <Button variant={props.filter === 'all' ? 'contained' : 'outlined'}
