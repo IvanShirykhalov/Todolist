@@ -1,5 +1,5 @@
 import axios, {AxiosResponse} from "axios";
-import {string} from "prop-types";
+import {LoginType} from "../features/Login/Login";
 
 
 const instance = axios.create({
@@ -10,13 +10,22 @@ const instance = axios.create({
     },
 })
 
+export const authAPI = {
+    login(data: LoginType) {
+        return instance.post<ResponseType<{ userId: number }>, AxiosResponse<ResponseType<{ userId: number }>>, LoginType>('auth/login', data)
+    },
+    logout() {
+
+    }
+}
+
 
 export const todolistAPI = {
     getTodolists() {
         return instance.get<TodolistType[]>('todo-lists')
     },
     createTodolist(title: string) {
-        return instance.post<{ title: string }, AxiosResponse<ResponseType<{ item: TodolistType }>>>('todo-lists', {title})
+        return instance.post<ResponseType<{ title: string }>, AxiosResponse<ResponseType<{ item: TodolistType }>>>('todo-lists', {title})
     },
     deleteTodolist(todolistId: string) {
         return instance.delete<ResponseType>(`todo-lists/${todolistId}`)
@@ -37,6 +46,7 @@ export const todolistAPI = {
         return instance.put<UpdateTaskModelType, AxiosResponse<ResponseType<TaskType>>>(`/todo-lists/${todolistId}/tasks/${taskId}`, model)
     },
 }
+
 
 export type ResponseType<T = {}> = {
     data: T

@@ -11,6 +11,8 @@ import {TodolistsList} from "../features/Todolists/TodolistsList";
 import {useAppSelector} from "./store";
 import {RequestStatusType} from "./app-reducer";
 import {ErrorSnackbar} from "../components/errorSnackbar/ErrorSnackbar";
+import {Login} from "../features/Login/Login";
+import {Navigate, Route, Routes} from "react-router-dom";
 
 type AppPropsType = { demo?: boolean }
 
@@ -34,7 +36,12 @@ export function App({demo = false}: AppPropsType) {
                 {status === 'loading' && <LinearProgress color="primary"/>}
             </AppBar>
             <Container fixed>
-                <TodolistsList demo={demo}/>
+                <Routes>
+                    <Route path={'/'} element={<TodolistsList demo={demo}/>}/>
+                    <Route path={'/login'} element={<Login/>}/>
+                    <Route path={'*'} element={<Navigate to='/404'/>}/>
+                    <Route path={'/404'} element={<h1>Page not found</h1>}/>
+                </Routes>
             </Container>
         </div>
     );

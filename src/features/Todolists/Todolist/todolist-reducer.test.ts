@@ -82,7 +82,7 @@ test('correct entity status of todolist should be changed', () => {
 
 
     const action: ReturnType<typeof changeTodolistStatusAC> = {
-        type: 'CHANGE-TODOLIST-STATUS',
+        type: 'CHANGE-TODOLIST-ENTITY-STATUS',
         id: todolistId2,
         status: newStatus
     }

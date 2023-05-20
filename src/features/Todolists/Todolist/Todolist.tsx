@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
-import {AppRootStateType, useAppDispatch, useAppSelector} from "../../../app/store";
+import {useAppDispatch, useAppSelector} from "../../../app/store";
 import {
     changeTodolistFilterAC,
     FilterValueType,
@@ -16,8 +16,6 @@ import {
 import {createTask, getTasks} from "./Task/tasks-reducer";
 import {Task} from "./Task/Task";
 import {TaskStatuses, TaskType} from "../../../api/todolist-api";
-import {useSelector} from "react-redux";
-import {RequestStatusType} from "../../../app/app-reducer";
 
 
 type TodolistPropsType = TodolistDomainType & { demo?: boolean }

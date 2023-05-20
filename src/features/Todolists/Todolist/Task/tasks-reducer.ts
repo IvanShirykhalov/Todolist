@@ -65,7 +65,7 @@ export const tasksReducer = (state = initialTaskState, action: ActionsType): Tas
         }
         case "SET-TASKS":
             return {...state, [action.todolistId]: action.tasks}
-        case "CHANGE-TODOLIST-STATUS":
+        case "CHANGE-TASK-STATUS":
             return {
                 ...state,
                 [action.todolistId]: state[action.todolistId]
@@ -88,7 +88,7 @@ export const updateTaskAC = (id: string, todolistId: string, model: UpdateDomain
 } as const)
 
 export const changeTaskStatusAC = (id: string, todolistId: string, status: RequestStatusType) => ({
-    type: 'CHANGE-TODOLIST-STATUS',
+    type: 'CHANGE-TASK-STATUS',
     id, todolistId, status
 } as const)
 

@@ -113,25 +113,6 @@ export const removeTodolist = (id: string) => async (dispatch: Dispatch<ActionsT
     }
 }
 
-// export const removeTodolist = (id: string) => (dispatch: Dispatch<ActionsType>) => {
-//     dispatch(setAppStatusAC('loading'))
-//     dispatch(changeTodolistStatusAC(id, 'loading'))
-//     todolistAPI.deleteTodolist(id)
-//         .then((res) => {
-//             if (res.data.resultCode === ResultCode.OK) {
-//                 dispatch(removeTodolistAC(id))
-//                 dispatch(setAppStatusAC('succeeded'))
-//             } else {
-//                 handleServerAppError(res.data, dispatch)
-//                 dispatch(changeTodolistStatusAC(id, 'failed'))
-//             }
-//         }).catch((e) => {
-//         handleServerNetworkError(e, dispatch)
-//         dispatch(changeTodolistStatusAC(id, 'failed'))
-//     })
-// }
-
-
 export const updateTodolistTitle = (id: string, title: string) => async (dispatch: Dispatch<ActionsType>) => {
     dispatch(setAppStatusAC('loading'))
 
