@@ -101,6 +101,10 @@ const initialGlobalState: AppRootStateType = {
         status: 'idle',
         error: null
     },
+    auth: {
+        isLoggedIn: true,
+        isInitialized: true,
+    },
 }
 
 export const storyBookStore = createStore(rootReducer, initialGlobalState as AppRootStateType, applyMiddleware(thunk))
