@@ -9,7 +9,7 @@ import {
 } from "../../../../api/todolist-api";
 import {Dispatch} from "redux";
 import {AppRootStateType} from "../../../../app/store";
-import {RequestStatusType, setErrorAC, setAppStatusAC} from "../../../../app/app-reducer";
+import {RequestStatusType, setAppErrorAC, setAppStatusAC} from "../../../../app/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../../../utils/error-utils";
 
 type ActionsType =
@@ -21,7 +21,7 @@ type ActionsType =
     | ReturnType<typeof setTasksAC>
     | ReturnType<typeof updateTaskAC>
     | ReturnType<typeof setAppStatusAC>
-    | ReturnType<typeof setErrorAC>
+    | ReturnType<typeof setAppErrorAC>
     | ReturnType<typeof changeTaskStatusAC>
 
 export type TasksStateType = {
@@ -174,9 +174,9 @@ export const updateTask = (taskId: string, todolistId: string, domainModel: Upda
                     dispatch(setAppStatusAC('succeeded'))
                 } else {
                     try {
-                        dispatch(setErrorAC(res.data.messages[0]))
+                        dispatch(setAppErrorAC(res.data.messages[0]))
                     } catch (e) {
-                        dispatch(setErrorAC((e as Error).message))
+                        dispatch(setAppErrorAC((e as Error).message))
                     }
                     dispatch(setAppStatusAC('failed'))
                 }
