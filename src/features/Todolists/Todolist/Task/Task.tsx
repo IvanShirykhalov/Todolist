@@ -4,9 +4,9 @@ import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import ListItem from "@mui/material/ListItem";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
-import {EditableSpan} from "../../../../components/editableSpan/EditableSpan";
-import {TaskStatuses, TaskType} from "../../../../api/todolist-api";
-import {useAppDispatch} from "../../../../app/store";
+import {EditableSpan} from "components/editableSpan/EditableSpan";
+import {TaskStatuses, TaskType} from "api/todolist-api";
+import {useAppDispatch} from "app/store";
 
 type TaskPropsType = {
     task: TaskType

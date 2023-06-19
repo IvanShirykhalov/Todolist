@@ -7,13 +7,13 @@ import LinearProgress from "@mui/material/LinearProgress";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/icons-material/Menu";
-import {TodolistsList} from "../features/Todolists/TodolistsList";
+import {TodolistsList} from "features/Todolists/TodolistsList";
 import {useAppDispatch, useAppSelector} from "./store";
-import {RequestStatusType} from "./app-reducer";
-import {ErrorSnackbar} from "../components/errorSnackbar/ErrorSnackbar";
-import {Login} from "../features/Login/Login";
+import {RequestStatusType, initializeApp} from "./app-reducer";
+import {ErrorSnackbar} from "components/errorSnackbar/ErrorSnackbar";
+import {Login} from "features/Login/Login";
 import {Navigate, Route, Routes} from "react-router-dom";
-import {initializeApp, logout} from "../features/Login/auth-reducer";
+import {logout} from "features/Login/auth-reducer";
 import {CircularProgress} from "@mui/material";
 
 type AppPropsType = { demo?: boolean }
@@ -22,7 +22,7 @@ export function App({demo = false}: AppPropsType) {
 
 
     const status = useAppSelector<RequestStatusType>(state => state.app.status)
-    const isInitialized = useAppSelector<boolean>(state => state.auth.isInitialized)
+    const isInitialized = useAppSelector<boolean>(state => state.app.isInitialized)
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
     const dispatch = useAppDispatch()
 
