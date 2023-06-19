@@ -1,7 +1,7 @@
-import {ResultCode, todolistAPI, TodolistType} from "../../../api/todolist-api";
-import {Dispatch} from "redux";
-import {RequestStatusType, setAppErrorAC, setAppStatusAC} from "../../../app/app-reducer";
-import {handleServerAppError, handleServerNetworkError} from "../../../utils/error-utils";
+import {ResultCode, todolistAPI, TodolistType} from "api/todolist-api";
+import {appActions, RequestStatusType} from "app/app-reducer";
+import {handleServerAppError, handleServerNetworkError} from "utils/error-utils";
+import {AppThunk} from "app/store";
 
 export type TodolistDomainType = TodolistType & {
     filter: FilterValueType
@@ -16,8 +16,6 @@ type ActionsType =
     | ReturnType<typeof changeTodolistTitleAC>
     | ReturnType<typeof changeTodolistStatusAC>
     | ReturnType<typeof setTodolists>
-    | ReturnType<typeof setAppStatusAC>
-    | ReturnType<typeof setAppErrorAC>
 
 
 const initialTodolistsState: TodolistDomainType[] = []
@@ -62,27 +60,27 @@ export const changeTodolistStatusAC = (id: string, status: RequestStatusType) =>
 export const setTodolists = (todos: TodolistType[]) => ({type: 'SET-TODOLISTS', todos} as const)
 
 
-export const fetchTodolists = () => async (dispatch: Dispatch<ActionsType>) => {
-    dispatch(setAppStatusAC('loading'))
+export const fetchTodolists = (): AppThunk => async (dispatch) => {
+    dispatch(appActions.setAppStatus({status: 'loading'}))
 
 
     try {
         const res = await todolistAPI.getTodolists()
         dispatch(setTodolists(res.data))
-        dispatch(setAppStatusAC('succeeded'))
+        dispatch(appActions.setAppStatus({status: 'succeeded'}))
     } catch (e) {
         handleServerNetworkError((e as Error), dispatch)
     }
 }
 
-export const createTodolist = (title: string) => async (dispatch: Dispatch<ActionsType>) => {
-    dispatch(setAppStatusAC('loading'))
+export const createTodolist = (title: string): AppThunk => async (dispatch) => {
+    dispatch(appActions.setAppStatus({status: 'loading'}))
 
     try {
         const res = await todolistAPI.createTodolist(title)
         if (res.data.resultCode === ResultCode.OK) {
             dispatch(addTodolistAC(res.data.data.item))
-            dispatch(setAppStatusAC('succeeded'))
+            dispatch(appActions.setAppStatus({status: 'succeeded'}))
         } else {
             handleServerAppError(res.data, dispatch)
         }
@@ -91,9 +89,9 @@ export const createTodolist = (title: string) => async (dispatch: Dispatch<Actio
     }
 }
 
-export const removeTodolist = (id: string) => async (dispatch: Dispatch<ActionsType>) => {
+export const removeTodolist = (id: string): AppThunk => async (dispatch) => {
     console.log({id})
-    dispatch(setAppStatusAC('loading'))
+    dispatch(appActions.setAppStatus({status: 'loading'}))
     dispatch(changeTodolistStatusAC(id, 'loading'))
 
     try {
@@ -101,7 +99,7 @@ export const removeTodolist = (id: string) => async (dispatch: Dispatch<ActionsT
         console.log({res})
         if (res.data.resultCode === ResultCode.OK) {
             dispatch(removeTodolistAC(id))
-            dispatch(setAppStatusAC('succeeded'))
+            dispatch(appActions.setAppStatus({status: 'succeeded'}))
 
         } else {
             handleServerAppError(res.data, dispatch)
@@ -113,14 +111,14 @@ export const removeTodolist = (id: string) => async (dispatch: Dispatch<ActionsT
     }
 }
 
-export const updateTodolistTitle = (id: string, title: string) => async (dispatch: Dispatch<ActionsType>) => {
-    dispatch(setAppStatusAC('loading'))
+export const updateTodolistTitle = (id: string, title: string): AppThunk => async (dispatch) => {
+    dispatch(appActions.setAppStatus({status: 'loading'}))
 
     try {
         const res = await todolistAPI.updateTodolist(id, title)
         if (res.data.resultCode === ResultCode.OK) {
             dispatch(changeTodolistTitleAC(id, title))
-            dispatch(setAppStatusAC('succeeded'))
+            dispatch(appActions.setAppStatus({status: 'succeeded'}))
         } else {
             handleServerAppError(res.data, dispatch)
         }

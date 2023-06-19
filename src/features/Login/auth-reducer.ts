@@ -1,20 +1,16 @@
-import {Dispatch} from 'redux'
-import {setAppErrorAC, setAppStatusAC} from 'app/app-reducer'
 import {LoginType} from "./Login";
 import {authAPI, ResultCode} from "api/todolist-api";
 import {handleServerAppError, handleServerNetworkError} from "utils/error-utils";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {AppThunk, ThunkDispatchType} from "app/store";
+import {AppThunk} from "app/store";
+import {appActions} from "app/app-reducer";
 
-
-const initialState = {
-    isLoggedIn: false,
-}
-type InitialStateType = typeof initialState
 
 const slice = createSlice({
     name: 'auth',
-    initialState,
+    initialState: {
+        isLoggedIn: false
+    },
     reducers: {
         setIsLoggedIn: (state, action: PayloadAction<{ isLoggedIn: boolean }>) => {
             state.isLoggedIn = action.payload.isLoggedIn
@@ -28,13 +24,13 @@ export const authActions = slice.actions
 
 
 export const login = (data: LoginType): AppThunk => async (dispatch) => {
-    dispatch(setAppStatusAC('loading'))
+    dispatch(appActions.setAppStatus({status: 'loading'}))
 
     try {
         const res = await authAPI.login(data)
         if (res.data.resultCode === ResultCode.OK) {
             dispatch(authActions.setIsLoggedIn({isLoggedIn: true}))
-            dispatch(setAppStatusAC('succeeded'))
+            dispatch(appActions.setAppStatus({status: 'succeeded'}))
         } else {
             handleServerAppError(res.data, dispatch)
         }
@@ -44,13 +40,13 @@ export const login = (data: LoginType): AppThunk => async (dispatch) => {
 }
 
 export const logout = (): AppThunk => async (dispatch) => {
-    dispatch(setAppStatusAC('loading'))
+    dispatch(appActions.setAppStatus({status: 'loading'}))
 
     try {
         const res = await authAPI.logout()
         if (res.data.resultCode === ResultCode.OK) {
             dispatch(authActions.setIsLoggedIn({isLoggedIn: false}))
-            dispatch(setAppStatusAC('succeeded'))
+            dispatch(appActions.setAppStatus({status: 'succeeded'}))
         } else {
             handleServerAppError(res.data, dispatch)
         }
