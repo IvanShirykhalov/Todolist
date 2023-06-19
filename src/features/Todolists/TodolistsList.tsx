@@ -3,8 +3,8 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import {Todolist} from "./Todolist/Todolist";
 import React, {useCallback, useEffect} from "react";
-import {AddItemForm} from "../../components/addItemForm/AddItemForm";
-import {useAppDispatch, useAppSelector} from "../../app/store";
+import {AddItemForm} from "components/addItemForm/AddItemForm";
+import {useAppDispatch, useAppSelector} from "app/store";
 import {Navigate} from "react-router-dom";
 
 type TodolistsListPropsType = {

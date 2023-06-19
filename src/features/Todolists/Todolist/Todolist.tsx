@@ -1,21 +1,21 @@
 import React, {useCallback, useEffect} from 'react';
-import {AddItemForm} from "../../../components/addItemForm/AddItemForm";
-import {EditableSpan} from "../../../components/editableSpan/EditableSpan";
+import {AddItemForm} from "components/addItemForm/AddItemForm";
+import {EditableSpan} from "components/editableSpan/EditableSpan";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
-import {useAppDispatch, useAppSelector} from "../../../app/store";
+import {useAppDispatch, useAppSelector} from "app/store";
 import {
-    changeTodolistFilterAC,
+
     FilterValueType,
     removeTodolist,
-    TodolistDomainType,
+    TodolistDomainType, todolistsActions,
     updateTodolistTitle
 } from "./todolists-reducer";
 import {createTask, getTasks} from "./Task/tasks-reducer";
 import {Task} from "./Task/Task";
-import {TaskStatuses, TaskType} from "../../../api/todolist-api";
+import {TaskStatuses, TaskType} from "api/todolist-api";
 
 
 type TodolistPropsType = TodolistDomainType & { demo?: boolean }
@@ -34,7 +34,7 @@ export const Todolist = React.memo(({demo = false, ...props}: TodolistPropsType)
     }
 
     const changeTodolistFilter = useCallback((filter: FilterValueType) =>
-        dispatch(changeTodolistFilterAC(props.id, filter)), [dispatch, props.id])
+        dispatch(todolistsActions.changeTodolistFilter({id: props.id, filter})), [dispatch, props.id])
 
     const changeTodolistTitle = useCallback((title: string) =>
         dispatch(updateTodolistTitle(props.id, title)), [dispatch, props.id])
