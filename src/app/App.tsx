@@ -9,21 +9,23 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/icons-material/Menu";
 import {TodolistsList} from "features/Todolists/TodolistsList";
 import {useAppDispatch, useAppSelector} from "./store";
-import {RequestStatusType, initializeApp} from "./app-reducer";
+import {initializeApp} from "app/app.reducer";
 import {ErrorSnackbar} from "components/errorSnackbar/ErrorSnackbar";
-import {Login} from "features/Login/Login";
+import {Login} from "features/Auth/Login";
 import {Navigate, Route, Routes} from "react-router-dom";
-import {logout} from "features/Login/auth-reducer";
+import {logout} from "features/Auth/auth.reducer";
 import {CircularProgress} from "@mui/material";
+import {selectIsLoggedIn} from "features/Auth/auth.selector";
+import {selectIsInitialized, selectStatus} from "app/app.selector";
 
 type AppPropsType = { demo?: boolean }
 
 export function App({demo = false}: AppPropsType) {
 
 
-    const status = useAppSelector<RequestStatusType>(state => state.app.status)
-    const isInitialized = useAppSelector<boolean>(state => state.app.isInitialized)
-    const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
+    const status = useAppSelector(selectStatus)
+    const isInitialized = useAppSelector(selectIsInitialized)
+    const isLoggedIn = useAppSelector(selectIsLoggedIn)
     const dispatch = useAppDispatch()
 
     const logOut = () => {

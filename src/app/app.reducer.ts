@@ -1,6 +1,6 @@
 import {authAPI, ResultCode} from "api/todolist-api";
-import {handleServerAppError, handleServerNetworkError} from "utils/error-utils";
-import {authActions} from "features/Login/auth-reducer";
+import {handleServerAppError, handleServerNetworkError} from "utils/error.utils";
+import {authActions} from "features/Auth/auth.reducer";
 import {AppThunk} from "app/store";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 

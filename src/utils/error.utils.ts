@@ -1,6 +1,6 @@
 import {Dispatch} from 'redux'
 import {ResponseType} from "api/todolist-api";
-import {appActions} from "app/app-reducer";
+import {appActions} from "app/app.reducer";
 
 
 // generic function

@@ -1,4 +1,4 @@
-import {createTodolist, fetchTodolists, TodolistDomainType} from "./Todolist/todolists-reducer";
+import {createTodolist, fetchTodolists, TodolistDomainType} from "features/Todolists/Todolist/todolists.reducer";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import {Todolist} from "./Todolist/Todolist";
@@ -6,6 +6,8 @@ import React, {useCallback, useEffect} from "react";
 import {AddItemForm} from "components/addItemForm/AddItemForm";
 import {useAppDispatch, useAppSelector} from "app/store";
 import {Navigate} from "react-router-dom";
+import {selectIsLoggedIn} from "features/Auth/auth.selector";
+import {selectTodolists} from "features/Todolists/Todolist/todolist.selector";
 
 type TodolistsListPropsType = {
     demo?: boolean
@@ -14,8 +16,8 @@ type TodolistsListPropsType = {
 export const TodolistsList = React.memo(({demo = false}: TodolistsListPropsType) => {
 
         const dispatch = useAppDispatch()
-        const todolists = useAppSelector<TodolistDomainType[]>(state => state.todolists)
-        const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
+        const todolists = useAppSelector(selectTodolists)
+        const isLoggedIn = useAppSelector(selectIsLoggedIn)
 
 
         useEffect(() => {

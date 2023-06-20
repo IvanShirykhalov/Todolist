@@ -1,5 +1,5 @@
 import axios, {AxiosResponse} from "axios";
-import {LoginType} from "../features/Login/Login";
+import {LoginType} from "../features/Auth/Login";
 
 
 const instance = axios.create({

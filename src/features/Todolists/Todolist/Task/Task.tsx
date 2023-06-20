@@ -1,5 +1,5 @@
 import React, {ChangeEvent} from 'react';
-import {deleteTask, updateTask} from "./tasks-reducer";
+import {deleteTask, updateTask} from "features/Todolists/Todolist/Task/tasks.reducer";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import ListItem from "@mui/material/ListItem";

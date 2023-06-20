@@ -12,8 +12,8 @@ import {
     removeTodolist,
     TodolistDomainType, todolistsActions,
     updateTodolistTitle
-} from "./todolists-reducer";
-import {createTask, getTasks} from "./Task/tasks-reducer";
+} from "features/Todolists/Todolist/todolists.reducer";
+import {createTask, getTasks} from "features/Todolists/Todolist/Task/tasks.reducer";
 import {Task} from "./Task/Task";
 import {TaskStatuses, TaskType} from "api/todolist-api";
 
