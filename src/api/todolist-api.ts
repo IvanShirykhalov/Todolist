@@ -93,6 +93,10 @@ export type TaskType = {
     addedDate: string
 }
 
+export type TasksStateType = {
+    [key: string]: TaskType[]
+}
+
 export type UpdateTaskModelType = {
     title: string
     description: string

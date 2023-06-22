@@ -31,6 +31,7 @@ export const login = (data: LoginType): AppThunk => async (dispatch) => {
         if (res.data.resultCode === ResultCode.OK) {
             dispatch(authActions.setIsLoggedIn({isLoggedIn: true}))
             dispatch(appActions.setAppStatus({status: 'succeeded'}))
+
         } else {
             handleServerAppError(res.data, dispatch)
         }

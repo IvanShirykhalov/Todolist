@@ -5,12 +5,12 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
-import {useAppDispatch, useAppSelector} from "app/store";
+import {useAppDispatch} from "app/store";
 import {
-
     FilterValueType,
     removeTodolist,
-    TodolistDomainType, todolistsActions,
+    TodolistDomainType,
+    todolistsActions,
     updateTodolistTitle
 } from "features/Todolists/Todolist/todolists.reducer";
 import {createTask, getTasks} from "features/Todolists/Todolist/Task/tasks.reducer";
@@ -18,19 +18,22 @@ import {Task} from "./Task/Task";
 import {TaskStatuses, TaskType} from "api/todolist-api";
 
 
-type TodolistPropsType = TodolistDomainType & { demo?: boolean }
+type TodolistPropsType = TodolistDomainType & {
+    demo?: boolean
+    tasks: TaskType[]
+}
 
 export const Todolist = React.memo(({demo = false, ...props}: TodolistPropsType) => {
 
 
     const dispatch = useAppDispatch()
-    let tasks = useAppSelector<TaskType[]>(state => state.tasks[props.id])
+
     switch (props.filter) {
         case 'active':
-            tasks = tasks.filter(t => t.status === TaskStatuses.New)
+            props.tasks = props.tasks.filter(t => t.status === TaskStatuses.New)
             break;
         case "completed":
-            tasks = tasks.filter(t => t.status === TaskStatuses.Completed)
+            props.tasks = props.tasks.filter(t => t.status === TaskStatuses.Completed)
     }
 
     const changeTodolistFilter = useCallback((filter: FilterValueType) =>
@@ -65,7 +68,7 @@ export const Todolist = React.memo(({demo = false, ...props}: TodolistPropsType)
             </h3>
             <AddItemForm addItem={addTask} disabled={props.entityStatus === 'loading'}/>
             <List>
-                {tasks.map(t => <Task key={t.id} task={t} todolistId={props.id}/>)}
+                {props.tasks.map(t => <Task key={t.id} task={t} todolistId={props.id}/>)}
             </List>
             <div>
                 <Button variant={props.filter === 'all' ? 'contained' : 'outlined'}
