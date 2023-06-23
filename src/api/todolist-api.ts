@@ -12,7 +12,9 @@ const instance = axios.create({
 
 export const authAPI = {
     login(data: LoginType) {
-        return instance.post<ResponseType<{ userId: number }>, AxiosResponse<ResponseType<{ userId: number }>>, LoginType>('auth/login', data)
+        return instance.post<ResponseType<{ userId: number }>, AxiosResponse<ResponseType<{
+            userId: number
+        }>>, LoginType>('auth/login', data)
     },
     logout() {
         return instance.delete<ResponseType>(`auth/login`)
@@ -28,7 +30,9 @@ export const todolistAPI = {
         return instance.get<TodolistType[]>('todo-lists')
     },
     createTodolist(title: string) {
-        return instance.post<ResponseType<{ title: string }>, AxiosResponse<ResponseType<{ item: TodolistType }>>>('todo-lists', {title})
+        return instance.post<ResponseType<{ title: string }>, AxiosResponse<ResponseType<{
+            item: TodolistType
+        }>>>('todo-lists', {title})
     },
     deleteTodolist(todolistId: string) {
         return instance.delete<ResponseType>(`todo-lists/${todolistId}`)
@@ -39,8 +43,8 @@ export const todolistAPI = {
     getTasks(todolistId: string) {
         return instance.get<GetTaskResponseType>(`todo-lists/${todolistId}/tasks`)
     },
-    createTask(todolistId: string, title: string) {
-        return instance.post<{ title: string }, AxiosResponse<ResponseType<{ item: TaskType }>>>(`/todo-lists/${todolistId}/tasks`, {title})
+    createTask(arg: AddTaskArgType) {
+        return instance.post<{ title: string }, AxiosResponse<ResponseType<{ item: TaskType }>>>(`/todo-lists/${arg.todolistId}/tasks`, {title: arg.title})
     },
     deleteTask(todolistId: string, taskId: string) {
         return instance.delete<ResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`)
@@ -88,7 +92,7 @@ export type TaskType = {
     startDate: string
     deadline: string
     id: string
-    todoListId: string
+    todolistId: string
     order: number
     addedDate: string
 }
@@ -116,4 +120,9 @@ export enum ResultCode {
     OK = 0,
     Error = 1,
     Captcha = 10,
+}
+
+export type AddTaskArgType = {
+    todolistId: string
+    title: string
 }

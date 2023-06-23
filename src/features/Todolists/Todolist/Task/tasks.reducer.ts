@@ -1,4 +1,5 @@
 import {
+    AddTaskArgType,
     ResultCode,
     TaskPriorities,
     TasksStateType,
@@ -36,6 +37,28 @@ const fetchTasks = createAppAsyncThunk<{
 })
 
 
+const addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgType>('tasks/addTask', async (arg, thunkAPI) => {
+    const {dispatch, rejectWithValue} = thunkAPI
+    dispatch(appActions.setAppStatus({status: 'loading'}))
+
+    try {
+        const res = await todolistAPI.createTask(arg)
+        if (res.data.resultCode === ResultCode.OK) {
+            const task = res.data.data.item
+            //dispatch(tasksActions.addTask({task: res.data.data.item, todolistId}))
+            dispatch(appActions.setAppStatus({status: 'succeeded'}))
+            return {task}
+        } else {
+            handleServerAppError(res.data, dispatch)
+            return rejectWithValue(null)
+        }
+    } catch (e) {
+        handleServerNetworkError(e, dispatch)
+        return rejectWithValue(null)
+    }
+
+})
+
 export const deleteTask = (id: string, todolistId: string): AppThunk => async (dispatch) => {
     dispatch(appActions.setAppStatus({status: 'loading'}))
 
@@ -51,24 +74,6 @@ export const deleteTask = (id: string, todolistId: string): AppThunk => async (d
         handleServerNetworkError((e as Error), dispatch)
     }
 }
-
-
-export const createTask = (todolistId: string, title: string): AppThunk => async (dispatch) => {
-    dispatch(appActions.setAppStatus({status: 'loading'}))
-
-    try {
-        const res = await todolistAPI.createTask(todolistId, title)
-        if (res.data.resultCode === ResultCode.OK) {
-            dispatch(tasksActions.addTask({task: res.data.data.item, todolistId}))
-            dispatch(appActions.setAppStatus({status: 'succeeded'}))
-        } else {
-            handleServerAppError(res.data, dispatch)
-        }
-    } catch (e) {
-        handleServerNetworkError((e as Error), dispatch)
-    }
-}
-
 
 export const updateTask = (id: string, todolistId: string, domainModel: UpdateDomainTaskModelType): AppThunk =>
     async (dispatch, getState: () => AppRootStateType) => {
@@ -112,9 +117,6 @@ const slice = createSlice({
     name: 'tasks',
     initialState: initialTaskState,
     reducers: {
-        addTask: (state, action: PayloadAction<{ task: TaskType, todolistId: string }>) => {
-            state[action.payload.todolistId].unshift(action.payload.task)
-        },
         removeTask: (state, action: PayloadAction<{ id: string, todolistId: string }>) => {
             const index = state[action.payload.todolistId].findIndex(t => t.id === action.payload.id)
             if (index !== -1) state[action.payload.todolistId].splice(index, 1)
@@ -133,6 +135,9 @@ const slice = createSlice({
         builder
             .addCase(fetchTasks.fulfilled, (state, action) => {
                 state[action.payload.todolistId] = action.payload.tasks
+            })
+            .addCase(addTask.fulfilled, (state, action) => {
+                state[action.payload.task.todolistId].unshift(action.payload.task)
             })
             .addCase(todolistsActions.addTodolist, (state, action) => {
                 state[action.payload.todolist.id] = []
@@ -153,7 +158,7 @@ const slice = createSlice({
 
 export const tasksReducer = slice.reducer
 export const tasksActions = slice.actions
-export const tasksThunks = {fetchTasks, deleteTask, createTask,}
+export const tasksThunks = {fetchTasks, deleteTask, addTask,}
 
 
 type UpdateDomainTaskModelType = {

@@ -13,7 +13,7 @@ import {
     todolistsActions,
     updateTodolistTitle
 } from "features/Todolists/Todolist/todolists.reducer";
-import {createTask, tasksThunks} from "features/Todolists/Todolist/Task/tasks.reducer";
+import {tasksThunks} from "features/Todolists/Todolist/Task/tasks.reducer";
 import {Task} from "./Task/Task";
 import {TaskStatuses, TaskType} from "api/todolist-api";
 
@@ -42,13 +42,12 @@ export const Todolist = React.memo(({demo = false, ...props}: TodolistPropsType)
     const changeTodolistTitle = useCallback((title: string) =>
         dispatch(updateTodolistTitle(props.id, title)), [dispatch, props.id])
 
-    const deleteTodolist = useCallback(() => {
-        dispatch(removeTodolist(props.id))
-    }, [dispatch, props.id])
+    const deleteTodolist = useCallback(() =>
+        dispatch(removeTodolist(props.id)), [dispatch, props.id])
 
 
     const addTask = useCallback((title: string) =>
-        dispatch(createTask(props.id, title)), [dispatch, props.id])
+        dispatch(tasksThunks.addTask({todolistId: props.id, title})), [dispatch, props.id])
 
 
     useEffect(() => {

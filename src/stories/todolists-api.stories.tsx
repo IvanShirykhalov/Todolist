@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import axios from "axios";
-import {todolistAPI} from "../api/todolist-api";
+import {todolistAPI} from "api/todolist-api";
 
 export default {
     title: 'API'
@@ -127,7 +127,7 @@ export const CreateTasks = () => {
 
 
     const createTask = () => {
-        todolistAPI.createTask(todolistId, title).then((res) => setState(res.data))
+        todolistAPI.createTask({todolistId, title}).then((res) => setState(res.data))
     }
 
     return (

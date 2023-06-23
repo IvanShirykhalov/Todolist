@@ -1,4 +1,4 @@
-import {tasksActions, tasksReducer} from 'features/Todolists/Todolist/Task/tasks.reducer'
+import {tasksActions, tasksReducer, tasksThunks} from 'features/Todolists/Todolist/Task/tasks.reducer'
 import {todolistsActions} from "features/Todolists/Todolist/todolists.reducer";
 import {TaskPriorities, TasksStateType, TaskStatuses} from "api/todolist-api";
 
@@ -17,7 +17,7 @@ beforeEach(() => {
                 order: 0,
                 startDate: '',
                 priority: TaskPriorities.Low,
-                todoListId: 'todolistId1'
+                todolistId: 'todolistId1'
             },
             {
                 id: '2',
@@ -29,7 +29,7 @@ beforeEach(() => {
                 order: 0,
                 startDate: '',
                 priority: TaskPriorities.Low,
-                todoListId: 'todolistId1'
+                todolistId: 'todolistId1'
             },
             {
                 id: '3',
@@ -41,7 +41,7 @@ beforeEach(() => {
                 order: 0,
                 startDate: '',
                 priority: TaskPriorities.Low,
-                todoListId: 'todolistId1'
+                todolistId: 'todolistId1'
             },
         ],
         'todolistId2': [
@@ -55,7 +55,7 @@ beforeEach(() => {
                 order: 0,
                 startDate: '',
                 priority: TaskPriorities.Low,
-                todoListId: 'todolistId2'
+                todolistId: 'todolistId2'
             },
             {
                 id: '2',
@@ -67,7 +67,7 @@ beforeEach(() => {
                 order: 0,
                 startDate: '',
                 priority: TaskPriorities.Low,
-                todoListId: 'todolistId2'
+                todolistId: 'todolistId2'
             },
             {
                 id: '3',
@@ -79,7 +79,7 @@ beforeEach(() => {
                 order: 0,
                 startDate: '',
                 priority: TaskPriorities.Low,
-                todoListId: 'todolistId2'
+                todolistId: 'todolistId2'
             },
         ]
     }
@@ -103,7 +103,7 @@ test('correct task should be deleted from correct array', () => {
                 order: 0,
                 startDate: '',
                 priority: TaskPriorities.Low,
-                todoListId: 'todolistId1'
+                todolistId: 'todolistId1'
             },
             {
                 id: '2',
@@ -115,7 +115,7 @@ test('correct task should be deleted from correct array', () => {
                 order: 0,
                 startDate: '',
                 priority: TaskPriorities.Low,
-                todoListId: 'todolistId1'
+                todolistId: 'todolistId1'
             },
             {
                 id: '3',
@@ -127,7 +127,7 @@ test('correct task should be deleted from correct array', () => {
                 order: 0,
                 startDate: '',
                 priority: TaskPriorities.Low,
-                todoListId: 'todolistId1'
+                todolistId: 'todolistId1'
             },
         ],
         'todolistId2': [
@@ -141,7 +141,7 @@ test('correct task should be deleted from correct array', () => {
                 order: 0,
                 startDate: '',
                 priority: TaskPriorities.Low,
-                todoListId: 'todolistId2'
+                todolistId: 'todolistId2'
             },
             {
                 id: '3',
@@ -153,7 +153,7 @@ test('correct task should be deleted from correct array', () => {
                 order: 0,
                 startDate: '',
                 priority: TaskPriorities.Low,
-                todoListId: 'todolistId2'
+                todolistId: 'todolistId2'
             },
         ]
     })
@@ -161,20 +161,22 @@ test('correct task should be deleted from correct array', () => {
 
 test('correct task should be added to correct array', () => {
 
-    const action = tasksActions.addTask({
-        task: {
-            id: '4',
-            title: 'juice',
-            status: TaskStatuses.New,
-            addedDate: '',
-            deadline: '',
-            description: '',
-            order: 0,
-            startDate: '',
-            priority: TaskPriorities.Low,
-            todoListId: 'todolistId2'
-        }, todolistId: 'todolistId2'
-    })
+    const task = {
+        id: '4',
+        title: 'juice',
+        status: TaskStatuses.New,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        order: 0,
+        startDate: '',
+        priority: TaskPriorities.Low,
+        todolistId: 'todolistId2'
+    }
+
+    const action = tasksThunks.addTask.fulfilled({
+        task,
+    }, 'requestId', {title: task.title, todolistId: task.todolistId})
 
 
     const endState = tasksReducer(startState, action)
