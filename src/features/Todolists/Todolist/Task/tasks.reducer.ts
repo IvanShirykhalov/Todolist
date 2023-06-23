@@ -40,7 +40,6 @@ const fetchTasks = createAppAsyncThunk<{
 const addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgType>('tasks/addTask', async (arg, thunkAPI) => {
     const {dispatch, rejectWithValue} = thunkAPI
     dispatch(appActions.setAppStatus({status: 'loading'}))
-
     try {
         const res = await todolistAPI.createTask(arg)
         if (res.data.resultCode === ResultCode.OK) {
@@ -137,7 +136,7 @@ const slice = createSlice({
                 state[action.payload.todolistId] = action.payload.tasks
             })
             .addCase(addTask.fulfilled, (state, action) => {
-                state[action.payload.task.todolistId].unshift(action.payload.task)
+                state[action.payload.task.todoListId].unshift(action.payload.task)
             })
             .addCase(todolistsActions.addTodolist, (state, action) => {
                 state[action.payload.todolist.id] = []

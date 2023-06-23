@@ -1,5 +1,5 @@
 import axios, {AxiosResponse} from "axios";
-import {LoginType} from "../features/Auth/Login";
+import {LoginType} from "features/Auth/Login";
 
 
 const instance = axios.create({
@@ -44,7 +44,7 @@ export const todolistAPI = {
         return instance.get<GetTaskResponseType>(`todo-lists/${todolistId}/tasks`)
     },
     createTask(arg: AddTaskArgType) {
-        return instance.post<{ title: string }, AxiosResponse<ResponseType<{ item: TaskType }>>>(`/todo-lists/${arg.todolistId}/tasks`, {title: arg.title})
+        return instance.post<{ title: string }, AxiosResponse<ResponseType<{ item: TaskType }>>>(`/todo-lists/${arg.todoListId}/tasks`, {title: arg.title})
     },
     deleteTask(todolistId: string, taskId: string) {
         return instance.delete<ResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`)
@@ -92,7 +92,7 @@ export type TaskType = {
     startDate: string
     deadline: string
     id: string
-    todolistId: string
+    todoListId: string
     order: number
     addedDate: string
 }
@@ -123,6 +123,6 @@ export enum ResultCode {
 }
 
 export type AddTaskArgType = {
-    todolistId: string
+    todoListId: string
     title: string
 }

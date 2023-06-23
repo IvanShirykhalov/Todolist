@@ -17,7 +17,7 @@ beforeEach(() => {
                 order: 0,
                 startDate: '',
                 priority: TaskPriorities.Low,
-                todolistId: 'todolistId1'
+                todoListId: 'todolistId1'
             },
             {
                 id: '2',
@@ -29,7 +29,7 @@ beforeEach(() => {
                 order: 0,
                 startDate: '',
                 priority: TaskPriorities.Low,
-                todolistId: 'todolistId1'
+                todoListId: 'todolistId1'
             },
             {
                 id: '3',
@@ -41,7 +41,7 @@ beforeEach(() => {
                 order: 0,
                 startDate: '',
                 priority: TaskPriorities.Low,
-                todolistId: 'todolistId1'
+                todoListId: 'todolistId1'
             },
         ],
         'todolistId2': [
@@ -55,7 +55,7 @@ beforeEach(() => {
                 order: 0,
                 startDate: '',
                 priority: TaskPriorities.Low,
-                todolistId: 'todolistId2'
+                todoListId: 'todolistId2'
             },
             {
                 id: '2',
@@ -67,7 +67,7 @@ beforeEach(() => {
                 order: 0,
                 startDate: '',
                 priority: TaskPriorities.Low,
-                todolistId: 'todolistId2'
+                todoListId: 'todolistId2'
             },
             {
                 id: '3',
@@ -79,7 +79,7 @@ beforeEach(() => {
                 order: 0,
                 startDate: '',
                 priority: TaskPriorities.Low,
-                todolistId: 'todolistId2'
+                todoListId: 'todolistId2'
             },
         ]
     }
@@ -171,12 +171,12 @@ test('correct task should be added to correct array', () => {
         order: 0,
         startDate: '',
         priority: TaskPriorities.Low,
-        todolistId: 'todolistId2'
+        todoListId: 'todolistId2'
     }
 
     const action = tasksThunks.addTask.fulfilled({
         task,
-    }, 'requestId', {title: task.title, todolistId: task.todolistId})
+    }, 'requestId', {title: task.title, todoListId: task.todoListId})
 
 
     const endState = tasksReducer(startState, action)
