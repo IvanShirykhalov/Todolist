@@ -13,7 +13,7 @@ import {
     todolistsActions,
     updateTodolistTitle
 } from "features/Todolists/Todolist/todolists.reducer";
-import {createTask, getTasks} from "features/Todolists/Todolist/Task/tasks.reducer";
+import {createTask, tasksThunks} from "features/Todolists/Todolist/Task/tasks.reducer";
 import {Task} from "./Task/Task";
 import {TaskStatuses, TaskType} from "api/todolist-api";
 
@@ -55,7 +55,7 @@ export const Todolist = React.memo(({demo = false, ...props}: TodolistPropsType)
         if (demo) {
             return;
         }
-        dispatch(getTasks(props.id))
+        dispatch(tasksThunks.fetchTasks(props.id))
     }, [])
 
     return (

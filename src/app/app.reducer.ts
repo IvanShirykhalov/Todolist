@@ -35,21 +35,6 @@ const slice = createSlice({
 export const appReducer = slice.reducer
 export const appActions = slice.actions
 
-// export const appReducer = (state: InitialStateType = initialState, action: AppActionsType): InitialStateType => {
-//     switch (action.type) {
-//         case 'APP/SET-STATUS':
-//             return {...state, status: action.status}
-//         case "APP/SET-ERROR":
-//             return {...state, error: action.error}
-//         case 'login/SET-IS-INITIALIZED':
-//             return {...state, isInitialized: action.isInitialized}
-//         default:
-//             return state
-//     }
-// }
-// export const setAppStatusAC = (status: RequestStatusType) => ({type: 'APP/SET-STATUS', status} as const)
-// export const setAppErrorAC = (error: null | string) => ({type: 'APP/SET-ERROR', error} as const)
-// export const setIsInitializedAC = (isInitialized: boolean) => ({type: 'login/SET-IS-INITIALIZED', isInitialized} as const)
 
 export const initializeApp = (): AppThunk => async (dispatch) => {
     dispatch(appActions.setAppStatus({status: 'loading'}))

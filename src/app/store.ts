@@ -23,9 +23,10 @@ export type AppRootStateType = ReturnType<typeof rootReducer>
 
 
 
-export type ThunkDispatchType = ThunkDispatch<AppRootStateType, any, AnyAction>
+
+export type AppDispatch = ThunkDispatch<AppRootStateType, unknown, AnyAction>
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppRootStateType, unknown, AnyAction>
-export const useAppDispatch = () => useDispatch<ThunkDispatchType>()
+export const useAppDispatch = () => useDispatch<AppDispatch>()
 export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector
 
 
