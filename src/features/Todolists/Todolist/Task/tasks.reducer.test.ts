@@ -1,4 +1,4 @@
-import {tasksActions, tasksReducer, tasksThunks} from 'features/Todolists/Todolist/Task/tasks.reducer'
+import {tasksReducer, tasksThunks} from 'features/Todolists/Todolist/Task/tasks.reducer'
 import {todolistsActions} from "features/Todolists/Todolist/todolists.reducer";
 import {TaskPriorities, TasksStateType, TaskStatuses} from "api/todolist-api";
 
@@ -87,7 +87,9 @@ beforeEach(() => {
 
 test('correct task should be deleted from correct array', () => {
 
-    const action = tasksActions.removeTask({id: '2', todolistId: 'todolistId2'})
+    const arg = {taskId: '2', todoListId: 'todolistId2'}
+
+    const action = tasksThunks.deleteTask.fulfilled(arg, 'requestId', arg)
 
     const endState = tasksReducer(startState, action)
 
@@ -103,7 +105,7 @@ test('correct task should be deleted from correct array', () => {
                 order: 0,
                 startDate: '',
                 priority: TaskPriorities.Low,
-                todolistId: 'todolistId1'
+                todoListId: 'todolistId1'
             },
             {
                 id: '2',
@@ -115,7 +117,7 @@ test('correct task should be deleted from correct array', () => {
                 order: 0,
                 startDate: '',
                 priority: TaskPriorities.Low,
-                todolistId: 'todolistId1'
+                todoListId: 'todolistId1'
             },
             {
                 id: '3',
@@ -127,7 +129,7 @@ test('correct task should be deleted from correct array', () => {
                 order: 0,
                 startDate: '',
                 priority: TaskPriorities.Low,
-                todolistId: 'todolistId1'
+                todoListId: 'todolistId1'
             },
         ],
         'todolistId2': [
@@ -141,7 +143,7 @@ test('correct task should be deleted from correct array', () => {
                 order: 0,
                 startDate: '',
                 priority: TaskPriorities.Low,
-                todolistId: 'todolistId2'
+                todoListId: 'todolistId2'
             },
             {
                 id: '3',
@@ -153,7 +155,7 @@ test('correct task should be deleted from correct array', () => {
                 order: 0,
                 startDate: '',
                 priority: TaskPriorities.Low,
-                todolistId: 'todolistId2'
+                todoListId: 'todolistId2'
             },
         ]
     })
@@ -190,7 +192,9 @@ test('correct task should be added to correct array', () => {
 
 test('status of specified task should be changed', () => {
 
-    const action = tasksActions.updateTask({id: '2', todolistId: 'todolistId2', model: {status: TaskStatuses.New}})
+    const domainModule = {id: '2', todolistId: 'todolistId2', domainModel: {status: TaskStatuses.New}}
+
+    const action = tasksThunks.updateTask.fulfilled(domainModule, 'requestId', domainModule)
 
     const endState = tasksReducer(startState, action)
 
@@ -199,8 +203,9 @@ test('status of specified task should be changed', () => {
 })
 
 test('title of specified task should be changed', () => {
+    const domainModule = {id: '2', todolistId: 'todolistId2', domainModel: {title: 'newTitle'}}
 
-    const action = tasksActions.updateTask({id: '2', todolistId: 'todolistId2', model: {title: 'newTitle'}})
+    const action = tasksThunks.updateTask.fulfilled(domainModule, 'requestId', domainModule)
 
     const endState = tasksReducer(startState, action)
 

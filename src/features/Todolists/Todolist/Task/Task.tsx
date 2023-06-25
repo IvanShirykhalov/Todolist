@@ -1,5 +1,5 @@
 import React, {ChangeEvent} from 'react';
-import {tasksThunks, updateTask} from "features/Todolists/Todolist/Task/tasks.reducer";
+import {tasksThunks} from "features/Todolists/Todolist/Task/tasks.reducer";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import ListItem from "@mui/material/ListItem";
@@ -18,12 +18,12 @@ export const Task = React.memo((props: TaskPropsType) => {
 
         const dispatch = useAppDispatch()
 
-        const removeTask = () => dispatch(tasksThunks.deleteTask(props.task.id, props.todolistId))
+        const removeTask = () => dispatch(tasksThunks.deleteTask({taskId: props.task.id, todoListId: props.todolistId}))
 
         const onChangeTaskStatus = (e: ChangeEvent<HTMLInputElement>) =>
-            dispatch(updateTask(props.task.id, props.todolistId, {status: e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New}))
+            dispatch(tasksThunks.updateTask({id: props.task.id, todolistId: props.todolistId, domainModel: {status: e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New}}))
 
-        const onChangeTitle = (title: string) => dispatch(updateTask(props.task.id, props.todolistId, {title}))
+        const onChangeTitle = (title: string) => dispatch(tasksThunks.updateTask({id: props.task.id, todolistId: props.todolistId,domainModel: {title}}))
 
 
         return (

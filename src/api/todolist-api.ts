@@ -44,10 +44,12 @@ export const todolistAPI = {
         return instance.get<GetTaskResponseType>(`todo-lists/${todolistId}/tasks`)
     },
     createTask(arg: AddTaskArgType) {
-        return instance.post<{ title: string }, AxiosResponse<ResponseType<{ item: TaskType }>>>(`/todo-lists/${arg.todoListId}/tasks`, {title: arg.title})
+        return instance.post<{ title: string }, AxiosResponse<ResponseType<{
+            item: TaskType
+        }>>>(`/todo-lists/${arg.todoListId}/tasks`, {title: arg.title})
     },
-    deleteTask(todolistId: string, taskId: string) {
-        return instance.delete<ResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`)
+    deleteTask(arg: DeleteTaskArgType) {
+        return instance.delete<ResponseType>(`/todo-lists/${arg.todoListId}/tasks/${arg.taskId}`)
     },
     updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
         return instance.put<UpdateTaskModelType, AxiosResponse<ResponseType<TaskType>>>(`/todo-lists/${todolistId}/tasks/${taskId}`, model)
@@ -110,6 +112,16 @@ export type UpdateTaskModelType = {
     deadline: string
 }
 
+
+export type UpdateDomainTaskModelType = {
+    title?: string
+    description?: string
+    status?: TaskStatuses
+    priority?: TaskPriorities
+    startDate?: string
+    deadline?: string
+}
+
 type GetTaskResponseType = {
     error: string | null
     totalCount: number
@@ -125,4 +137,20 @@ export enum ResultCode {
 export type AddTaskArgType = {
     todoListId: string
     title: string
+}
+
+export type DeleteTaskArgType = {
+    taskId: string
+    todoListId: string
+}
+
+export type FetchTasksArgType = {
+    tasks: TaskType[],
+    todolistId: string
+}
+
+export type UpdateTaskArgType = {
+    id: string
+    todolistId: string
+    domainModel: UpdateDomainTaskModelType
 }
