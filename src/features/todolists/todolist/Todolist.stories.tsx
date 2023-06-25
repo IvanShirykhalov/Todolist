@@ -4,7 +4,7 @@ import {ReduxStoreProviderDecorator} from "../../../stories/decorators/ReduxStor
 import {Todolist} from "./Todolist";
 
 export default {
-    title: 'Todolist/Todolist',
+    title: 'todolist/todolist',
     component: Todolist,
     decorators: [ReduxStoreProviderDecorator],
 } as ComponentMeta<typeof Todolist>;

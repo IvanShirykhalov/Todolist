@@ -7,16 +7,17 @@ import LinearProgress from "@mui/material/LinearProgress";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/icons-material/Menu";
-import {TodolistsList} from "features/Todolists/TodolistsList";
-import {useAppDispatch, useAppSelector} from "./store";
+import {TodolistsList} from "features/todolists/TodolistsList";
+import {useAppSelector} from "./store";
 import {initializeApp} from "app/app.reducer";
-import {ErrorSnackbar} from "components/errorSnackbar/ErrorSnackbar";
-import {Login} from "features/Auth/Login";
+import {ErrorSnackbar} from "common/components/errorSnackbar/ErrorSnackbar";
+import {Login} from "features/auth/Login";
 import {Navigate, Route, Routes} from "react-router-dom";
-import {logout} from "features/Auth/auth.reducer";
+import {logout} from "features/auth/auth.reducer";
 import {CircularProgress} from "@mui/material";
-import {selectIsLoggedIn} from "features/Auth/auth.selector";
+import {selectIsLoggedIn} from "features/auth/auth.selector";
 import {selectIsInitialized, selectStatus} from "app/app.selector";
+import {useAppDispatch} from "common/hooks/use-app-dispatch";
 
 type AppPropsType = { demo?: boolean }
 

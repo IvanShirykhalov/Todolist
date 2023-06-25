@@ -1,13 +1,13 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {ComponentMeta, ComponentStory} from '@storybook/react';
-import {AddItemForm} from "../addItemForm/AddItemForm";
+import {AddItemForm} from "common/components/addItemForm/AddItemForm";
 import {action} from "@storybook/addon-actions";
 import {IconButton, TextField} from "@mui/material";
 import {Add} from "@mui/icons-material";
-import {EditableSpan} from "./EditableSpan";
+import {EditableSpan} from "common/components/editableSpan/EditableSpan";
 
 export default {
-    title: 'Todolist/EditableSpan',
+    title: 'todolist/EditableSpan',
     component: EditableSpan,
     argTypes: {
         onChangeTitle: {

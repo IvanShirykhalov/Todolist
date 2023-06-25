@@ -1,21 +1,22 @@
 import React, {useCallback, useEffect} from 'react';
-import {AddItemForm} from "components/addItemForm/AddItemForm";
-import {EditableSpan} from "components/editableSpan/EditableSpan";
+import {AddItemForm} from "common/components/addItemForm/AddItemForm";
+import {EditableSpan} from "common/components/editableSpan/EditableSpan";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
-import {useAppDispatch} from "app/store";
+
 import {
     FilterValueType,
     removeTodolist,
     TodolistDomainType,
     todolistsActions,
     updateTodolistTitle
-} from "features/Todolists/Todolist/todolists.reducer";
-import {tasksThunks} from "features/Todolists/Todolist/Task/tasks.reducer";
-import {Task} from "./Task/Task";
-import {TaskStatuses, TaskType} from "api/todolist-api";
+} from "features/todolists/todolist/todolists.reducer";
+import {tasksThunks} from "features/todolists/todolist/task/tasks.reducer";
+import {Task} from "./task/Task";
+import {TaskStatuses, TaskType} from "common/api/todolist-api";
+import {useAppDispatch} from "common/hooks/use-app-dispatch";
 
 
 type TodolistPropsType = TodolistDomainType & {

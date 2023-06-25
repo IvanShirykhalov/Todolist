@@ -1,14 +1,15 @@
-import {createTodolist, fetchTodolists} from "features/Todolists/Todolist/todolists.reducer";
+import {createTodolist, fetchTodolists} from "features/todolists/todolist/todolists.reducer";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import {Todolist} from "./Todolist/Todolist";
+import {Todolist} from "./todolist/Todolist";
 import React, {useCallback, useEffect} from "react";
-import {AddItemForm} from "components/addItemForm/AddItemForm";
-import {useAppDispatch, useAppSelector} from "app/store";
+import {AddItemForm} from "common/components/addItemForm/AddItemForm";
 import {Navigate} from "react-router-dom";
-import {selectIsLoggedIn} from "features/Auth/auth.selector";
-import {selectTodolists} from "features/Todolists/Todolist/todolist.selector";
-import {selectTasks} from "features/Todolists/Todolist/Task/tasks.selector";
+import {selectIsLoggedIn} from "features/auth/auth.selector";
+import {selectTodolists} from "features/todolists/todolist/todolist.selector";
+import {selectTasks} from "features/todolists/todolist/task/tasks.selector";
+import {useAppDispatch} from "common/hooks/use-app-dispatch";
+import {useAppSelector} from "app/store";
 
 type TodolistsListPropsType = {
     demo?: boolean

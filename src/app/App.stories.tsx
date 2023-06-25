@@ -4,7 +4,7 @@ import {ReduxStoreProviderDecorator} from "../stories/decorators/ReduxStoreProvi
 import {App} from "./App";
 
 export default {
-    title: 'Todolist/App',
+    title: 'todolist/App',
     component: App,
     decorators: [ReduxStoreProviderDecorator]
 } as ComponentMeta<typeof App>;

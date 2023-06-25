@@ -8,13 +8,14 @@ import {
     todolistAPI,
     UpdateTaskArgType,
     UpdateTaskModelType
-} from "api/todolist-api";
+} from "common/api/todolist-api";
 import {appActions} from "app/app.reducer";
-import {handleServerAppError, handleServerNetworkError} from "utils/error.utils";
+import {handleServerNetworkError} from "common/utils/handle-server-network-error";
 import {createSlice} from "@reduxjs/toolkit";
-import {todolistsActions} from "features/Todolists/Todolist/todolists.reducer";
+import {todolistsActions} from "features/todolists/todolist/todolists.reducer";
 import {clearTodolistsAndTasks} from "common/actions/common.actions";
-import {createAppAsyncThunk} from "utils/create-app-async-thunk";
+import {createAppAsyncThunk} from "common/utils/create-app-async-thunk";
+import {handleServerAppError} from "common/utils/handle-server-app-error";
 
 
 const fetchTasks = createAppAsyncThunk<FetchTasksArgType, string>('tasks/fetchTasks', async (todolistId, thunkAPI) => {
@@ -64,7 +65,7 @@ const deleteTask = createAppAsyncThunk<any, DeleteTaskArgType>('tasks/deleteTask
         if (res.data.resultCode === ResultCode.OK) {
             //dispatch(tasksActions.removeTask(arg))
             dispatch(appActions.setAppStatus({status: 'succeeded'}))
-            return rejectWithValue(null)
+            return
         } else {
             handleServerAppError(res.data, dispatch)
             return rejectWithValue(null)

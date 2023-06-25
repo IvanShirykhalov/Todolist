@@ -4,11 +4,11 @@ import {Task} from "./Task";
 import {ReduxStoreProviderDecorator} from "../../../../stories/decorators/ReduxStoreProviderDecorator";
 import {useSelector} from "react-redux";
 import {AppRootStateType} from "../../../../app/store";
-import {TaskType} from "../../../../api/todolist-api";
+import {TaskType} from "../../../../common/api/todolist-api";
 
 
 export default {
-    title: 'Todolist/Task',
+    title: 'todolist/task',
     component: Task,
     decorators: [ReduxStoreProviderDecorator]
 } as ComponentMeta<typeof Task>;

@@ -8,10 +8,11 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
-import {login} from "features/Auth/auth.reducer";
-import {useAppDispatch, useAppSelector} from "app/store";
+import {login} from "features/auth/auth.reducer";
+import {useAppSelector} from "app/store";
 import {Navigate} from "react-router-dom";
-import {selectIsLoggedIn} from "features/Auth/auth.selector";
+import {selectIsLoggedIn} from "features/auth/auth.selector";
+import {useAppDispatch} from "common/hooks/use-app-dispatch";
 
 
 type FormikErrorType = {

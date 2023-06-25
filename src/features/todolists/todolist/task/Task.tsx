@@ -1,12 +1,13 @@
 import React, {ChangeEvent} from 'react';
-import {tasksThunks} from "features/Todolists/Todolist/Task/tasks.reducer";
+import {tasksThunks} from "features/todolists/todolist/task/tasks.reducer";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import ListItem from "@mui/material/ListItem";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
-import {EditableSpan} from "components/editableSpan/EditableSpan";
-import {TaskStatuses, TaskType} from "api/todolist-api";
-import {useAppDispatch} from "app/store";
+import {EditableSpan} from "common/components/editableSpan/EditableSpan";
+import {TaskStatuses, TaskType} from "common/api/todolist-api";
+import {useAppDispatch} from "common/hooks/use-app-dispatch";
+
 
 type TaskPropsType = {
     task: TaskType
