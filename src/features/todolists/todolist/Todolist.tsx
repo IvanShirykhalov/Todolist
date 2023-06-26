@@ -8,10 +8,9 @@ import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 
 import {
     FilterValueType,
-    removeTodolist,
     TodolistDomainType,
     todolistsActions,
-    updateTodolistTitle
+    todolistsThunks,
 } from "features/todolists/todolist/todolists.reducer";
 import {tasksThunks} from "features/todolists/todolist/task/tasks.reducer";
 import {Task} from "./task/Task";
@@ -41,10 +40,10 @@ export const Todolist = React.memo(({demo = false, ...props}: TodolistPropsType)
         dispatch(todolistsActions.changeTodolistFilter({id: props.id, filter})), [dispatch, props.id])
 
     const changeTodolistTitle = useCallback((title: string) =>
-        dispatch(updateTodolistTitle(props.id, title)), [dispatch, props.id])
+        dispatch(todolistsThunks.updateTodolistTitle({title, id: props.id})), [dispatch, props.id])
 
     const deleteTodolist = useCallback(() =>
-        dispatch(removeTodolist(props.id)), [dispatch, props.id])
+        dispatch(todolistsThunks.removeTodolist({id: props.id})), [dispatch, props.id])
 
 
     const addTask = useCallback((title: string) =>

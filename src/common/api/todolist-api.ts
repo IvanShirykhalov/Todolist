@@ -158,3 +158,12 @@ export type UpdateTaskArgType = {
 export type FetchTodolistsArgType = {
     todolists: TodolistType[]
 }
+
+export type RemoveTodolistsArgType = {
+    id: string
+}
+
+export type ChangeTodolistTitleArgType = {
+    id: string
+    title: string
+}

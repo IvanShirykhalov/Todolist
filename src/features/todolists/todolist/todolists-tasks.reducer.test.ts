@@ -19,7 +19,7 @@ test('ids should be equals', () => {
         id: '3'
     }
 
-    const action = todolistsThunks.createTodolist.fulfilled({todolist: newTodolist},'requestId', newTitle)
+    const action = todolistsThunks.createTodolist.fulfilled({todolist: newTodolist}, 'requestId', newTitle)
 
     const endTasksState = tasksReducer(startTasksState, action)
     const endTodolistsState = todolistsReducer(startTodolistsState, action)
@@ -113,7 +113,7 @@ test('property with todolistId should be deleted', () => {
         ],
     }
 
-    const action = todolistsActions.removeTodolist({id: 'todolistId2'})
+    const action = todolistsThunks.removeTodolist.fulfilled({id: 'todolistId2'}, 'requestId', {id: 'todolistId2'})
 
     const endState = tasksReducer(startState, action)
 
