@@ -55,7 +55,8 @@ const addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgType>('tasks/a
 
 })
 
-const deleteTask = createAppAsyncThunk<any, DeleteTaskArgType>('tasks/deleteTask', async (arg, thunkAPI) => {
+const deleteTask = createAppAsyncThunk<DeleteTaskArgType, DeleteTaskArgType>('tasks/deleteTask', async (arg, thunkAPI) => {
+
 
     const {dispatch, rejectWithValue} = thunkAPI
     dispatch(appActions.setAppStatus({status: 'loading'}))
@@ -65,7 +66,8 @@ const deleteTask = createAppAsyncThunk<any, DeleteTaskArgType>('tasks/deleteTask
         if (res.data.resultCode === ResultCode.OK) {
             //dispatch(tasksActions.removeTask(arg))
             dispatch(appActions.setAppStatus({status: 'succeeded'}))
-            return
+
+            return arg
         } else {
             handleServerAppError(res.data, dispatch)
             return rejectWithValue(null)
@@ -83,7 +85,6 @@ const updateTask = createAppAsyncThunk<UpdateTaskArgType, UpdateTaskArgType>('ta
     const task = getState().tasks[arg.todolistId].find(t => t.id === arg.id)
 
     dispatch(appActions.setAppStatus({status: 'loading'}))
-
 
     if (task) {
         const apiModel: UpdateTaskModelType = {
@@ -130,7 +131,7 @@ const slice = createSlice({
                 state[action.payload.task.todoListId].unshift(action.payload.task)
             })
             .addCase(deleteTask.fulfilled, (state, action) => {
-                const index = state[action.payload.todoListId].findIndex(t => t.id === action.payload.id)
+                const index = state[action.payload.todoListId].findIndex(t => t.id === action.payload.taskId)
                 if (index !== -1) state[action.payload.todoListId].splice(index, 1)
             })
             .addCase(updateTask.fulfilled, (state, action) => {
