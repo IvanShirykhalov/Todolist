@@ -154,3 +154,7 @@ export type UpdateTaskArgType = {
     todolistId: string
     domainModel: UpdateDomainTaskModelType
 }
+
+export type FetchTodolistsArgType = {
+    todolists: TodolistType[]
+}

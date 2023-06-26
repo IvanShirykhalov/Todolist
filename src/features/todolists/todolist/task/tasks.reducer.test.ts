@@ -1,5 +1,5 @@
 import {tasksReducer, tasksThunks} from 'features/todolists/todolist/task/tasks.reducer'
-import {todolistsActions} from "features/todolists/todolist/todolists.reducer";
+import {todolistsActions, todolistsThunks} from "features/todolists/todolist/todolists.reducer";
 import {TaskPriorities, TasksStateType, TaskStatuses} from "common/api/todolist-api";
 
 
@@ -217,14 +217,14 @@ test('title of specified task should be changed', () => {
 test('new array should be added when new todolist is added', () => {
 
 
-    const action = todolistsActions.addTodolist({
+    const action = todolistsThunks.createTodolist.fulfilled({
         todolist: {
             title: 'new todolist',
             id: 'todolistId3',
             order: 0,
             addedDate: ''
         }
-    })
+    }, 'requestId', 'new todolist')
 
     const endState = tasksReducer(startState, action)
 

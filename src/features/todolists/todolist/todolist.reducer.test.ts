@@ -1,7 +1,7 @@
 import {
     FilterValueType,
     TodolistDomainType, todolistsActions,
-    todolistsReducer
+    todolistsReducer, todolistsThunks
 } from 'features/todolists/todolist/todolists.reducer'
 import {v1} from 'uuid'
 import {TodolistType} from "common/api/todolist-api";
@@ -39,10 +39,10 @@ test('correct todolist should be added', () => {
     }
 
 
-    const endState = todolistsReducer(startState, todolistsActions.addTodolist({todolist: newTodolist}))
+    const endState = todolistsReducer(startState, todolistsThunks.createTodolist.fulfilled({todolist: newTodolist}, 'requestId', 'New todolist'))
 
     expect(endState.length).toBe(3)
-    expect(endState[0].title).toBe(newTodolistTitle)
+    expect(endState[0].title).toBe('New todolist')
 })
 
 test('correct todolist should change its name', () => {

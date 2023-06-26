@@ -1,4 +1,4 @@
-import {createTodolist, fetchTodolists} from "features/todolists/todolist/todolists.reducer";
+import {todolistsThunks} from "features/todolists/todolist/todolists.reducer";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import {Todolist} from "./todolist/Todolist";
@@ -28,11 +28,11 @@ export const TodolistsList = React.memo(({demo = false}: TodolistsListPropsType)
                 if (demo) {
                     return
                 }
-                dispatch(fetchTodolists())
+                dispatch(todolistsThunks.fetchTodolists({todolists}))
             }
         }, [])
 
-        const addTodolist = useCallback((title: string) => dispatch(createTodolist(title)), [dispatch])
+        const addTodolist = useCallback((title: string) => dispatch(todolistsThunks.createTodolist(title)), [dispatch])
 
         if (!isLoggedIn) {
             return <Navigate to={'/login'}/>

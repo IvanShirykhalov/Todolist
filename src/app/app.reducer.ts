@@ -4,6 +4,7 @@ import {AppThunk} from "app/store";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {handleServerNetworkError} from "common/utils/handle-server-network-error";
 import {handleServerAppError} from "common/utils/handle-server-app-error";
+import {fetchTodolists} from "features/todolists/todolist/todolists.reducer";
 
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
@@ -31,7 +32,7 @@ const slice = createSlice({
         setIsInitialized: (state, action: PayloadAction<{ isInitialized: boolean }>) => {
             state.isInitialized = action.payload.isInitialized
         }
-    }
+    },
 })
 
 export const appReducer = slice.reducer
