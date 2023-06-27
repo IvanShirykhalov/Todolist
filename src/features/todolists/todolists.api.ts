@@ -1,31 +1,10 @@
-import axios, {AxiosResponse} from "axios";
-import {LoginType} from "features/auth/Login";
+import {AxiosResponse} from "axios";
+import {instance} from "common/api/common.api";
+import {TaskPriorities, TaskStatuses} from "common/enums/common.enums";
+import {ResponseType} from "common/types/common.types";
 
 
-const instance = axios.create({
-    baseURL: 'https://social-network.samuraijs.com/api/1.1/',
-    withCredentials: true,
-    headers: {
-        'API-KEY': '5936c173-624b-4ce0-b32b-55723c8702bd'
-    },
-})
-
-export const authAPI = {
-    login(data: LoginType) {
-        return instance.post<ResponseType<{ userId: number }>, AxiosResponse<ResponseType<{
-            userId: number
-        }>>, LoginType>('auth/login', data)
-    },
-    logout() {
-        return instance.delete<ResponseType>(`auth/login`)
-    },
-    me() {
-        return instance.get<ResponseType<{ id: number, email: string, login: string }>>('auth/me')
-    }
-}
-
-
-export const todolistAPI = {
+export const commonApi = {
     getTodolists() {
         return instance.get<TodolistType[]>('todo-lists')
     },
@@ -56,14 +35,6 @@ export const todolistAPI = {
     },
 }
 
-
-export type ResponseType<T = {}> = {
-    data: T
-    fieldsErrors: string[]
-    messages: string[]
-    resultCode: number
-}
-
 export type TodolistType = {
     addedDate: string
     id: string
@@ -71,20 +42,6 @@ export type TodolistType = {
     title: string
 }
 
-export enum TaskStatuses {
-    New = 0,
-    InProgress = 1,
-    Completed = 2,
-    Draft = 3,
-}
-
-export enum TaskPriorities {
-    Low = 0,
-    Middle = 1,
-    Hi = 2,
-    urgently = 3,
-    Later = 4,
-}
 
 export type TaskType = {
     description: string
@@ -128,11 +85,6 @@ type GetTaskResponseType = {
     items: TaskType[]
 }
 
-export enum ResultCode {
-    OK = 0,
-    Error = 1,
-    Captcha = 10,
-}
 
 export type AddTaskArgType = {
     todoListId: string

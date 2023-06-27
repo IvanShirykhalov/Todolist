@@ -5,8 +5,9 @@ import IconButton from "@mui/material/IconButton";
 import ListItem from "@mui/material/ListItem";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import {EditableSpan} from "common/components/editableSpan/EditableSpan";
-import {TaskStatuses, TaskType} from "common/api/todolist-api";
 import {useAppDispatch} from "common/hooks/use-app-dispatch";
+import {TaskType} from "features/todolists/todolists.api";
+import {TaskStatuses} from "common/enums/common.enums";
 
 
 type TaskPropsType = {

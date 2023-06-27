@@ -3,9 +3,9 @@ import {AppRootStateType} from "app/store";
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import {tasksReducer} from "features/todolists/todolist/task/tasks.reducer";
 import {todolistsReducer} from "features/todolists/todolist/todolists.reducer";
-import {TaskPriorities, TaskStatuses} from "common/api/todolist-api";
 import {appReducer} from "app/app.reducer";
 import thunk from "redux-thunk";
+import {TaskPriorities, TaskStatuses} from "common/enums/common.enums";
 
 const rootReducer = combineReducers({
     tasks: tasksReducer,

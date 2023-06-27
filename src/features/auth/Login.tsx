@@ -21,11 +21,7 @@ type FormikErrorType = {
     rememberMe?: boolean
 }
 
-export type LoginType = {
-    email: string
-    password: string
-    rememberMe: boolean
-}
+
 export const Login = () => {
 
     const isLoggedIn = useAppSelector(selectIsLoggedIn)

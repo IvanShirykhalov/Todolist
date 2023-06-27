@@ -14,8 +14,10 @@ import {
 } from "features/todolists/todolist/todolists.reducer";
 import {tasksThunks} from "features/todolists/todolist/task/tasks.reducer";
 import {Task} from "./task/Task";
-import {TaskStatuses, TaskType} from "common/api/todolist-api";
+
 import {useAppDispatch} from "common/hooks/use-app-dispatch";
+import {TaskStatuses} from "common/enums/common.enums";
+import {TaskType} from "features/todolists/todolists.api";
 
 
 type TodolistPropsType = TodolistDomainType & {

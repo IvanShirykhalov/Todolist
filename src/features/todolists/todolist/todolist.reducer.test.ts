@@ -4,8 +4,9 @@ import {
     todolistsReducer, todolistsThunks
 } from 'features/todolists/todolist/todolists.reducer'
 import {v1} from 'uuid'
-import {TodolistType} from "common/api/todolist-api";
+
 import {RequestStatusType} from "app/app.reducer";
+import {TodolistType} from "features/todolists/todolists.api";
 
 
 let startState: TodolistDomainType[]

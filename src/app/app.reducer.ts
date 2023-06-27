@@ -1,10 +1,10 @@
-import {authAPI, ResultCode} from "common/api/todolist-api";
 import {authActions} from "features/auth/auth.reducer";
 import {AppThunk} from "app/store";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {handleServerNetworkError} from "common/utils/handle-server-network-error";
 import {handleServerAppError} from "common/utils/handle-server-app-error";
-import {fetchTodolists} from "features/todolists/todolist/todolists.reducer";
+import {ResultCode} from "common/enums/common.enums";
+import {authAPI} from "features/auth/auth.api";
 
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
