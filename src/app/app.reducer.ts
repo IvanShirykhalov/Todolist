@@ -1,10 +1,4 @@
-import {authActions} from "features/auth/auth.reducer";
-import {AppThunk} from "app/store";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {handleServerNetworkError} from "common/utils/handle-server-network-error";
-import {handleServerAppError} from "common/utils/handle-server-app-error";
-import {ResultCode} from "common/enums/common.enums";
-import {authAPI} from "features/auth/auth.api";
 
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
@@ -38,21 +32,3 @@ const slice = createSlice({
 export const appReducer = slice.reducer
 export const appActions = slice.actions
 
-
-export const initializeApp = (): AppThunk => async (dispatch) => {
-    dispatch(appActions.setAppStatus({status: 'loading'}))
-
-    try {
-        const res = await authAPI.me()
-        if (res.data.resultCode === ResultCode.OK) {
-            dispatch(authActions.setIsLoggedIn({isLoggedIn: true}))
-            dispatch(appActions.setAppStatus({status: 'succeeded'}))
-        } else {
-            handleServerAppError(res.data, dispatch)
-        }
-    } catch (e) {
-        handleServerNetworkError((e as Error), dispatch)
-    } finally {
-        dispatch(appActions.setIsInitialized({isInitialized: true}))
-    }
-}

@@ -9,15 +9,14 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/icons-material/Menu";
 import {TodolistsList} from "features/todolists/TodolistsList";
 import {useAppSelector} from "./store";
-import {initializeApp} from "app/app.reducer";
 import {ErrorSnackbar} from "common/components/errorSnackbar/ErrorSnackbar";
 import {Login} from "features/auth/Login";
 import {Navigate, Route, Routes} from "react-router-dom";
-import {logout} from "features/auth/auth.reducer";
 import {CircularProgress} from "@mui/material";
 import {selectIsLoggedIn} from "features/auth/auth.selector";
 import {selectIsInitialized, selectStatus} from "app/app.selector";
 import {useAppDispatch} from "common/hooks/use-app-dispatch";
+import {authThunks} from "features/auth/auth.reducer";
 
 type AppPropsType = { demo?: boolean }
 
@@ -29,13 +28,13 @@ export function App({demo = false}: AppPropsType) {
     const isLoggedIn = useAppSelector(selectIsLoggedIn)
     const dispatch = useAppDispatch()
 
-    const logOut = () => {
-        dispatch(logout())
-    }
-
     useEffect(() => {
-        dispatch(initializeApp())
+        dispatch(authThunks.initializeApp())
     }, [])
+
+    const logOut = () => {
+        dispatch(authThunks.logout())
+    }
 
     if (!isInitialized) {
         return <div

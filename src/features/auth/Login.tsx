@@ -8,11 +8,11 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
-import {login} from "features/auth/auth.reducer";
 import {useAppSelector} from "app/store";
 import {Navigate} from "react-router-dom";
 import {selectIsLoggedIn} from "features/auth/auth.selector";
 import {useAppDispatch} from "common/hooks/use-app-dispatch";
+import {authThunks} from "features/auth/auth.reducer";
 
 
 type FormikErrorType = {
@@ -48,7 +48,7 @@ export const Login = () => {
             return errors
         },
         onSubmit: values => {
-            dispatch(login(values))
+            dispatch(authThunks.login(values))
             formik.resetForm()
         },
     })
