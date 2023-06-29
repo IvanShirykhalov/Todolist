@@ -43,6 +43,7 @@ export function App({demo = false}: AppPropsType) {
         </div>
     }
 
+
     return (
         <div className="App">
             <ErrorSnackbar/>

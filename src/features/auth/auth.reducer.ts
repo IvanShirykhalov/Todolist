@@ -39,7 +39,7 @@ const logout = createAppAsyncThunk<{ isLoggedIn: boolean }, void>('auth/logout',
             //dispatch(authActions.setIsLoggedIn({isLoggedIn: false}))
             dispatch(clearTodolistsAndTasks())
             dispatch(appActions.setAppStatus({status: 'succeeded'}))
-            return {isLoggedIn: true}
+            return {isLoggedIn: false}
         } else {
             handleServerAppError(res.data, dispatch)
             return rejectWithValue(null)
