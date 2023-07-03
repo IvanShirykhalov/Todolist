@@ -1,5 +1,4 @@
 import {appActions} from "app/app.reducer";
-import {handleServerNetworkError} from "common/utils/handle-server-network-error";
 import {createSlice} from "@reduxjs/toolkit";
 import {todolistsThunks} from "features/todolists/todolist/todolists.reducer";
 import {clearTodolistsAndTasks} from "common/actions/common.actions";
@@ -16,55 +15,72 @@ import {
     UpdateTaskModelType
 } from "features/todolists/todolists.api";
 import {ResultCode} from "common/enums/common.enums";
+import {thunkTryCatch} from "common/utils/thunk-try-catch";
 
 
 const fetchTasks = createAppAsyncThunk<FetchTasksArgType, string>('tasks/fetchTasks', async (todolistId, thunkAPI) => {
-    const {dispatch, rejectWithValue} = thunkAPI
-    dispatch(appActions.setAppStatus({status: 'loading'}))
+    const {dispatch} = thunkAPI
 
-    try {
+    return thunkTryCatch(thunkAPI, async ()=>{
         const res = await commonApi.getTasks(todolistId)
         dispatch(appActions.setAppStatus({status: 'succeeded'}))
-        //dispatch(tasksActions.setTasks({todolistId, tasks: res.data.items}))
         const tasks = res.data.items
         return {todolistId, tasks}
-    } catch (e) {
-        handleServerNetworkError(e, dispatch)
-        return rejectWithValue(null)
-    }
+    })
+    // dispatch(appActions.setAppStatus({status: 'loading'}))
+    //
+    // try {
+    //     const res = await commonApi.getTasks(todolistId)
+    //     dispatch(appActions.setAppStatus({status: 'succeeded'}))
+    //     //dispatch(tasksActions.setTasks({todolistId, tasks: res.data.items}))
+    //     const tasks = res.data.items
+    //     return {todolistId, tasks}
+    // } catch (e) {
+    //     handleServerNetworkError(e, dispatch)
+    //     return rejectWithValue(null)
+    // }
 })
 
 const addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgType>('tasks/addTask', async (arg, thunkAPI) => {
     const {dispatch, rejectWithValue} = thunkAPI
-    dispatch(appActions.setAppStatus({status: 'loading'}))
-    try {
+
+    return thunkTryCatch(thunkAPI, async () => {
         const res = await commonApi.createTask(arg)
         if (res.data.resultCode === ResultCode.OK) {
             const task = res.data.data.item
-            //dispatch(tasksActions.addTask({task: res.data.data.item, todolistId}))
             dispatch(appActions.setAppStatus({status: 'succeeded'}))
             return {task}
         } else {
             handleServerAppError(res.data, dispatch)
             return rejectWithValue(null)
         }
-    } catch (e) {
-        handleServerNetworkError(e, dispatch)
-        return rejectWithValue(null)
-    }
+    })
+
+    // dispatch(appActions.setAppStatus({status: 'loading'}))
+    // try {
+    //     const res = await commonApi.createTask(arg)
+    //     if (res.data.resultCode === ResultCode.OK) {
+    //         const task = res.data.data.item
+    //         //dispatch(tasksActions.addTask({task: res.data.data.item, todolistId}))
+    //         dispatch(appActions.setAppStatus({status: 'succeeded'}))
+    //         return {task}
+    //     } else {
+    //         handleServerAppError(res.data, dispatch)
+    //         return rejectWithValue(null)
+    //     }
+    // } catch (e) {
+    //     handleServerNetworkError(e, dispatch)
+    //     return rejectWithValue(null)
+    // }
 
 })
 
 const deleteTask = createAppAsyncThunk<DeleteTaskArgType, DeleteTaskArgType>('tasks/deleteTask', async (arg, thunkAPI) => {
 
-
     const {dispatch, rejectWithValue} = thunkAPI
-    dispatch(appActions.setAppStatus({status: 'loading'}))
-
-    try {
+    return thunkTryCatch(thunkAPI, async () => {
         const res = await commonApi.deleteTask(arg)
         if (res.data.resultCode === ResultCode.OK) {
-            //dispatch(tasksActions.removeTask(arg))
             dispatch(appActions.setAppStatus({status: 'succeeded'}))
 
             return arg
@@ -72,10 +88,24 @@ const deleteTask = createAppAsyncThunk<DeleteTaskArgType, DeleteTaskArgType>('ta
             handleServerAppError(res.data, dispatch)
             return rejectWithValue(null)
         }
-    } catch (e) {
-        handleServerNetworkError((e as Error), dispatch)
-        return rejectWithValue(null)
-    }
+    })
+    // dispatch(appActions.setAppStatus({status: 'loading'}))
+    //
+    // try {
+    //     const res = await commonApi.deleteTask(arg)
+    //     if (res.data.resultCode === ResultCode.OK) {
+    //         //dispatch(tasksActions.removeTask(arg))
+    //         dispatch(appActions.setAppStatus({status: 'succeeded'}))
+    //
+    //         return arg
+    //     } else {
+    //         handleServerAppError(res.data, dispatch)
+    //         return rejectWithValue(null)
+    //     }
+    // } catch (e) {
+    //     handleServerNetworkError((e as Error), dispatch)
+    //     return rejectWithValue(null)
+    // }
 })
 
 
@@ -96,8 +126,7 @@ const updateTask = createAppAsyncThunk<UpdateTaskArgType, UpdateTaskArgType>('ta
             description: task.description,
             ...arg.domainModel
         }
-
-        try {
+        return thunkTryCatch(thunkAPI, async () => {
             const res = await commonApi.updateTask(arg.todolistId, arg.id, apiModel)
 
             if (res.data.resultCode === ResultCode.OK) {
@@ -107,10 +136,21 @@ const updateTask = createAppAsyncThunk<UpdateTaskArgType, UpdateTaskArgType>('ta
                 dispatch(appActions.setAppError({error: res.data.messages[0]}))
                 return rejectWithValue(null)
             }
-        } catch (e) {
-            handleServerNetworkError((e as Error), dispatch)
-            return rejectWithValue(null)
-        }
+        })
+        // try {
+        //     const res = await commonApi.updateTask(arg.todolistId, arg.id, apiModel)
+        //
+        //     if (res.data.resultCode === ResultCode.OK) {
+        //         dispatch(appActions.setAppStatus({status: 'succeeded'}))
+        //         return arg
+        //     } else {
+        //         dispatch(appActions.setAppError({error: res.data.messages[0]}))
+        //         return rejectWithValue(null)
+        //     }
+        // } catch (e) {
+        //     handleServerNetworkError((e as Error), dispatch)
+        //     return rejectWithValue(null)
+        // }
     } else {
         return rejectWithValue(null)
     }
