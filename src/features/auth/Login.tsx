@@ -7,12 +7,14 @@ import FormGroup from '@mui/material/FormGroup';
 import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import {useFormik} from "formik";
+import {FormikHelpers, useFormik} from "formik";
 import {useAppSelector} from "app/store";
 import {Navigate} from "react-router-dom";
 import {selectIsLoggedIn} from "features/auth/auth.selector";
 import {useAppDispatch} from "common/hooks/use-app-dispatch";
 import {authThunks} from "features/auth/auth.reducer";
+import {LoginType} from "features/auth/auth.api";
+import {CommonResponseType} from "common/types";
 
 
 type FormikErrorType = {
@@ -36,19 +38,28 @@ export const Login = () => {
         validate: (values) => {
             const errors: FormikErrorType = {}
             if (!values.email) {
-                errors.email = 'Required'
+                errors.email = 'Email is required'
             } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
                 errors.email = 'Invalid email address'
             }
             if (!values.password) {
-                errors.password = 'Required'
+                errors.password = 'Password is required'
             } else if (values.password.length < 3) {
                 errors.password = 'Password must be longer than 3 symbols'
             }
             return errors
         },
-        onSubmit: values => {
+        onSubmit: (values, formikHelpers: FormikHelpers<LoginType>) => {
             dispatch(authThunks.login(values))
+                .unwrap()
+                .catch((reason: CommonResponseType) => {
+                    const {fieldsErrors} = reason
+                    if (fieldsErrors) {
+                        fieldsErrors.forEach((fieldError) => {
+                            formikHelpers.setFieldError(fieldError.field, fieldError.error)
+                        })
+                    }
+                })
             formik.resetForm()
         },
     })

@@ -1,7 +1,13 @@
-export type ResponseType<T = {}> = {
-    data: T
-    fieldsErrors: string[]
-    messages: string[]
-    resultCode: number
+
+
+type FieldErrorType = {
+    error: string
+    field: string
 }
 
+export type CommonResponseType<D = {}> = {
+    resultCode: number
+    messages: string[]
+    data: D
+    fieldsErrors: FieldErrorType[]
+}

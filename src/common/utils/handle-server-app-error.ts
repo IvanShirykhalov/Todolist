@@ -1,12 +1,18 @@
-import {ResponseType} from "common/types/common.types";
 import {Dispatch} from "redux";
 import {appActions} from "app/app.reducer";
+import {CommonResponseType} from "common/types";
 
-export const handleServerAppError = <T>(data: ResponseType<T>, dispatch: Dispatch) => {
-    if (data.messages.length) {
-        dispatch(appActions.setAppError({error: data.messages[0]}))
-    } else {
-        dispatch(appActions.setAppError({error: 'Some error occurred'}))
+
+/**
+ * Данная функция обрабатывает ошибки, которые могут возникнуть при взаимодействии с сервером.
+ * @param data  - ответ от сервера в формате CommonResponseType<D>
+ * @param dispatch - функция для отправки сообщений в store Redux
+ * @param showError - флаг, указывающий, нужно ли отображать ошибки в пользовательском интерфейсе
+ */
+export const handleServerAppError = <T>(data: CommonResponseType<T>, dispatch: Dispatch, showError: boolean = true) => {
+    if (showError) {
+        dispatch(appActions.setAppError({error: data.messages.length ? data.messages[0] : 'Some error occurred'}))
     }
+
     dispatch(appActions.setAppStatus({status: 'failed'}))
 }
