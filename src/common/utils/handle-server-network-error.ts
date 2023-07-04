@@ -3,8 +3,12 @@ import {appActions} from "app/app.reducer";
 import axios, {AxiosError} from "axios";
 
 
-// generic function
-
+/**
+ * Обрабатывает ошибку, возникающую при сетевом запросе на сервер, и отправляет действие в Redux-хранилище
+ * @param {unknown} e - Ошибка, которую необходимо обработать
+ * @param {Dispatch} dispatch - Функция Redux, используемая для отправки действия в хранилище
+ * @returns {void}
+ */
 
 export const handleServerNetworkError = (e: unknown, dispatch: Dispatch) => {
     const err = e as Error | AxiosError<{ error: string }>
@@ -14,7 +18,6 @@ export const handleServerNetworkError = (e: unknown, dispatch: Dispatch) => {
     } else {
         dispatch(appActions.setAppError({error: `Native error ${err.message}`}))
     }
-    //dispatch(appActions.setAppStatus({status: 'failed'}))
 }
 
 

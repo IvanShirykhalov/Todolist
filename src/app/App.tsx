@@ -15,9 +15,7 @@ import {Navigate, Route, Routes} from "react-router-dom";
 import {CircularProgress} from "@mui/material";
 import {selectIsLoggedIn} from "features/auth/auth.selector";
 import {selectIsInitialized, selectStatus} from "app/app.selector";
-import {useAppDispatch} from "common/hooks/useAppDispatch";
 import {authThunks} from "features/auth/auth.reducer";
-import {bindActionCreators} from "redux";
 import {useActions} from "common/hooks/useActions";
 
 type AppPropsType = { demo?: boolean }
@@ -28,15 +26,14 @@ export function App({demo = false}: AppPropsType) {
     const status = useAppSelector(selectStatus)
     const isInitialized = useAppSelector(selectIsInitialized)
     const isLoggedIn = useAppSelector(selectIsLoggedIn)
-    //const dispatch = useAppDispatch()
     const {initializeApp, logout} = useActions(authThunks)
 
     useEffect(() => {
-        initializeApp()
+        initializeApp({})
     }, [])
 
     const logOut = () => {
-        logout()
+        logout({})
     }
 
     if (!isInitialized) {

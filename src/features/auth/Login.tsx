@@ -28,7 +28,8 @@ type FormikErrorType = {
 export const Login = () => {
 
     const isLoggedIn = useAppSelector(selectIsLoggedIn)
-    const dispatch = useAppDispatch()
+
+    const {login} = useActions(authThunks)
 
     const formik = useFormik({
         initialValues: {
@@ -51,7 +52,7 @@ export const Login = () => {
             return errors
         },
         onSubmit: (values, formikHelpers: FormikHelpers<LoginType>) => {
-            dispatch(authThunks.login(values))
+            login(values)
                 .unwrap()
                 .catch((reason: CommonResponseType) => {
                     const {fieldsErrors} = reason
