@@ -11,10 +11,11 @@ import {FormikHelpers, useFormik} from "formik";
 import {useAppSelector} from "app/store";
 import {Navigate} from "react-router-dom";
 import {selectIsLoggedIn} from "features/auth/auth.selector";
-import {useAppDispatch} from "common/hooks/use-app-dispatch";
+import {useAppDispatch} from "common/hooks/useAppDispatch";
 import {authThunks} from "features/auth/auth.reducer";
 import {LoginType} from "features/auth/auth.api";
 import {CommonResponseType} from "common/types";
+import {useActions} from "common/hooks/useActions";
 
 
 type FormikErrorType = {
@@ -60,7 +61,6 @@ export const Login = () => {
                         })
                     }
                 })
-            formik.resetForm()
         },
     })
 

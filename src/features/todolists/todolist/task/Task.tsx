@@ -5,9 +5,9 @@ import IconButton from "@mui/material/IconButton";
 import ListItem from "@mui/material/ListItem";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import {EditableSpan} from "common/components/editableSpan/EditableSpan";
-import {useAppDispatch} from "common/hooks/use-app-dispatch";
 import {TaskType} from "features/todolists/todolists.api";
 import {TaskStatuses} from "common/enums/common.enums";
+import {useActions} from "common/hooks/useActions";
 
 
 type TaskPropsType = {
@@ -18,14 +18,22 @@ type TaskPropsType = {
 export const Task = React.memo((props: TaskPropsType) => {
 
 
-        const dispatch = useAppDispatch()
+        const {deleteTask, updateTask} = useActions(tasksThunks)
 
-        const removeTask = () => dispatch(tasksThunks.deleteTask({taskId: props.task.id, todoListId: props.todolistId}))
+        const removeTask = () => deleteTask({taskId: props.task.id, todoListId: props.todolistId})
 
         const onChangeTaskStatus = (e: ChangeEvent<HTMLInputElement>) =>
-            dispatch(tasksThunks.updateTask({id: props.task.id, todolistId: props.todolistId, domainModel: {status: e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New}}))
+            updateTask({
+                id: props.task.id,
+                todolistId: props.todolistId,
+                domainModel: {status: e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New}
+            })
 
-        const onChangeTitle = (title: string) => dispatch(tasksThunks.updateTask({id: props.task.id, todolistId: props.todolistId,domainModel: {title}}))
+        const onChangeTitle = (title: string) => updateTask({
+            id: props.task.id,
+            todolistId: props.todolistId,
+            domainModel: {title}
+        })
 
 
         return (

@@ -4,7 +4,7 @@ import MuiAlert, {AlertProps} from '@mui/material/Alert'
 
 import {appActions} from "app/app.reducer";
 import {selectError} from "common/components/errorSnackbar/errorSnackbar.select";
-import {useAppDispatch} from "common/hooks/use-app-dispatch";
+import {useAppDispatch} from "common/hooks/useAppDispatch";
 import {useAppSelector} from "app/store";
 
 

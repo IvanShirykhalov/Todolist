@@ -8,8 +8,9 @@ import {Navigate} from "react-router-dom";
 import {selectIsLoggedIn} from "features/auth/auth.selector";
 import {selectTodolists} from "features/todolists/todolist/todolist.selector";
 import {selectTasks} from "features/todolists/todolist/task/tasks.selector";
-import {useAppDispatch} from "common/hooks/use-app-dispatch";
+import {useAppDispatch} from "common/hooks/useAppDispatch";
 import {useAppSelector} from "app/store";
+import {useActions} from "common/hooks/useActions";
 
 type TodolistsListPropsType = {
     demo?: boolean
@@ -21,6 +22,7 @@ export const TodolistsList = React.memo(({demo = false}: TodolistsListPropsType)
         const todolists = useAppSelector(selectTodolists)
         const tasks = useAppSelector(selectTasks)
         const isLoggedIn = useAppSelector(selectIsLoggedIn)
+        const {fetchTodolists, createTodolist} = useActions(todolistsThunks)
 
 
         useEffect(() => {
@@ -28,11 +30,11 @@ export const TodolistsList = React.memo(({demo = false}: TodolistsListPropsType)
                 if (demo) {
                     return
                 }
-                dispatch(todolistsThunks.fetchTodolists({todolists}))
+                fetchTodolists({todolists})
             }
         }, [])
 
-        const addTodolist = useCallback((title: string) => dispatch(todolistsThunks.createTodolist(title)), [dispatch])
+        const addTodolist = useCallback((title: string) => createTodolist(title), [dispatch])
 
         if (!isLoggedIn) {
             return <Navigate to={'/login'}/>
