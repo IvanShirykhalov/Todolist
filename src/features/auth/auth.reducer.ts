@@ -23,24 +23,6 @@ const login = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginType>('auth/logi
             return rejectWithValue(res.data)
         }
     })
-
-    // dispatch(appActions.setAppStatus({status: 'loading'}))
-    //
-    // try {
-    //     const res = await authAPI.login(arg)
-    //     if (res.data.resultCode === ResultCode.OK) {
-    //         //dispatch(authActions.setIsLoggedIn({isLoggedIn: true}))
-    //         dispatch(appActions.setAppStatus({status: 'succeeded'}))
-    //         return {isLoggedIn: true}
-    //
-    //     } else {
-    //         handleServerAppError(res.data, dispatch, !!res.data.fieldsErrors)
-    //         return rejectWithValue(res.data)
-    //     }
-    // } catch (e) {
-    //     handleServerNetworkError((e as Error), dispatch)
-    //     return rejectWithValue(null)
-    // }
 })
 
 const logout = createAppAsyncThunk<{ isLoggedIn: boolean }, void>('auth/logout', async (_, thunkAPI) => {
@@ -57,41 +39,20 @@ const logout = createAppAsyncThunk<{ isLoggedIn: boolean }, void>('auth/logout',
             return rejectWithValue(null)
         }
     })
-    // dispatch(appActions.setAppStatus({status: 'loading'}))
-    //
-    // try {
-    //     const res = await authAPI.logout()
-    //     if (res.data.resultCode === ResultCode.OK) {
-    //         //dispatch(authActions.setIsLoggedIn({isLoggedIn: false}))
-    //         dispatch(clearTodolistsAndTasks())
-    //         dispatch(appActions.setAppStatus({status: 'succeeded'}))
-    //         return {isLoggedIn: false}
-    //     } else {
-    //         handleServerAppError(res.data, dispatch)
-    //         return rejectWithValue(null)
-    //     }
-    // } catch (e) {
-    //     handleServerNetworkError((e as Error), dispatch)
-    //     return rejectWithValue(null)
-    // }
 })
 
 const initializeApp = createAppAsyncThunk<{ isLoggedIn: boolean }, void>('app/initializeApp', async (_, thunkAPI) => {
     const {dispatch, rejectWithValue} = thunkAPI
-    //dispatch(appActions.setAppStatus({status: 'loading'}))
 
     try {
         const res = await authAPI.me()
         if (res.data.resultCode === ResultCode.OK) {
-            //dispatch(authActions.setIsLoggedIn({isLoggedIn: true}))
             dispatch(appActions.setAppStatus({status: 'succeeded'}))
             return {isLoggedIn: true}
         } else {
-            //handleServerAppError(res.data, dispatch)
             return rejectWithValue(null)
         }
     } catch (e) {
-        //handleServerNetworkError((e as Error), dispatch)
         return rejectWithValue(null)
     } finally {
         dispatch(appActions.setIsInitialized({isInitialized: true}))

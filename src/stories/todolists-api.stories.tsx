@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
-import {commonApi} from "features/todolists/todolists.api";
+import {todolistAPI} from "features/todolists/todolist/todolists.api";
+import {taskAPI} from "features/todolists/task/tasks.api";
 
 export default {
     title: 'API'
@@ -10,7 +11,7 @@ export const GetTodolists = () => {
     const [state, setState] = useState<any>(null)
 
     const getTodolists = () => {
-        commonApi.getTodolists()
+        todolistAPI.getTodolists()
             .then((res) => {
                 setState(res.data)
             })
@@ -30,7 +31,7 @@ export const CreateTodolist = () => {
     const [title, setTitle] = useState<string>('')
 
     const createTodolist = () => {
-        commonApi.createTodolist(title).then((res) => setState(res.data))
+        todolistAPI.createTodolist(title).then((res) => setState(res.data))
     }
 
     return (
@@ -51,7 +52,7 @@ export const DeleteTodolist = () => {
 
 
     const deleteTodolist = () => {
-        commonApi.deleteTodolist(todolistId)
+        todolistAPI.deleteTodolist(todolistId)
             .then((res) => setState(res.data))
     }
 
@@ -74,7 +75,7 @@ export const UpdateTodolistTitle = () => {
     const [title, setTitle] = useState<string>('')
 
     const updateTodolistTitle = () => {
-        commonApi.updateTodolist(todolistId, title)
+        todolistAPI.updateTodolist(todolistId, title)
             .then((res) => setState(res.data))
     }
 
@@ -101,7 +102,7 @@ export const GetTasks = () => {
     const [todolistId, setTodolistId] = useState<string>('')
 
     const getTasks = () => {
-        commonApi.getTasks(todolistId)
+        taskAPI.getTasks(todolistId)
             .then((res) => {
                 setState(res.data)
             })
@@ -126,7 +127,7 @@ export const CreateTasks = () => {
 
 
     const createTask = () => {
-        commonApi.createTask({todoListId, title}).then((res) => setState(res.data))
+        taskAPI.createTask({todoListId, title}).then((res) => setState(res.data))
     }
 
     return (
@@ -150,7 +151,7 @@ export const DeleteTask = () => {
     const [todoListId, setTodolistId] = useState<string>('')
 
     const deleteTask = () => {
-        commonApi.deleteTask({taskId, todoListId})
+        taskAPI.deleteTask({id: taskId, todoListId})
             .then((res) => setState(res.data))
     }
 
@@ -182,7 +183,7 @@ export const UpdateTaskTitle = () => {
 
 
     const updateTaskTitle = () => {
-        commonApi.updateTask(todolistId, taskId, {title, deadline, description, priority, startDate, status})
+        taskAPI.updateTask(todolistId, taskId, {title, deadline, description, priority, startDate, status})
             .then((res) => setState(res.data))
     }
 

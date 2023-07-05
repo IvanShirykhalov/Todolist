@@ -1,10 +1,11 @@
 import React from 'react';
 import {ComponentMeta, ComponentStory} from '@storybook/react';
-import {Task} from "./Task";
+import {Task} from "features/todolists/task/Task";
 import {ReduxStoreProviderDecorator} from "stories/decorators/ReduxStoreProviderDecorator";
 import {useSelector} from "react-redux";
 import {AppRootStateType} from "app/store";
-import {TaskType} from "features/todolists/todolists.api";
+import {TaskType} from "features/todolists/task/tasks.api";
+
 
 
 export default {
@@ -17,7 +18,7 @@ export default {
 const TaskCopy = () => {
     const task = useSelector<AppRootStateType, TaskType>(state => state.tasks['todolistId1'][0])
 
-    return <Task task={task} todolistId={'todolistId1'}/>
+    return <Task task={task} todoListId={'todolistId1'}/>
 
 }
 

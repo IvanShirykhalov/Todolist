@@ -7,7 +7,7 @@ import {AddItemForm} from "common/components/addItemForm/AddItemForm";
 import {Navigate} from "react-router-dom";
 import {selectIsLoggedIn} from "features/auth/auth.selector";
 import {selectTodolists} from "features/todolists/todolist/todolist.selector";
-import {selectTasks} from "features/todolists/todolist/task/tasks.selector";
+import {selectTasks} from "features/todolists/task/tasks.selector";
 import {useAppDispatch} from "common/hooks/useAppDispatch";
 import {useAppSelector} from "app/store";
 import {useActions} from "common/hooks/useActions";

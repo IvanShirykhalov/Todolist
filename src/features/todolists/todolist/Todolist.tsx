@@ -11,11 +11,11 @@ import {
     todolistsActions,
     todolistsThunks,
 } from "features/todolists/todolist/todolists.reducer";
-import {tasksThunks} from "features/todolists/todolist/task/tasks.reducer";
-import {Task} from "./task/Task";
+import {tasksThunks} from "features/todolists/task/tasks.reducer";
+import {Task} from "../task/Task";
 import {TaskStatuses} from "common/enums/common.enums";
-import {TaskType} from "features/todolists/todolists.api";
 import {useActions} from "common/hooks/useActions";
+import {TaskType} from "features/todolists/task/tasks.api";
 
 
 type TodolistPropsType = TodolistDomainType & {
@@ -68,7 +68,7 @@ export const Todolist = React.memo(({demo = false, ...props}: TodolistPropsType)
             </h3>
             <AddItemForm addItem={createTask} disabled={props.entityStatus === 'loading'}/>
             <List>
-                {props.tasks.map(t => <Task key={t.id} task={t} todolistId={props.id}/>)}
+                {props.tasks.map(t => <Task key={t.id} task={t} todoListId={props.id}/>)}
             </List>
             <div>
                 <Button variant={props.filter === 'all' ? 'contained' : 'outlined'}

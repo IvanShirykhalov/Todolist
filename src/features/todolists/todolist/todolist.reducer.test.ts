@@ -6,7 +6,7 @@ import {
 import {v1} from 'uuid'
 
 import {RequestStatusType} from "app/app.reducer";
-import {TodolistType} from "features/todolists/todolists.api";
+import {TodolistType} from "features/todolists/todolist/todolists.api";
 
 
 let startState: TodolistDomainType[]

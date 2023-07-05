@@ -1,7 +1,7 @@
-import {tasksReducer, tasksThunks} from 'features/todolists/todolist/task/tasks.reducer'
+import {tasksReducer, tasksThunks} from 'features/todolists/task/tasks.reducer'
 import {todolistsThunks} from "features/todolists/todolist/todolists.reducer";
-import {TasksStateType} from "features/todolists/todolists.api";
 import {TaskPriorities, TaskStatuses} from "common/enums/common.enums";
+import {TasksStateType} from "features/todolists/task/tasks.api";
 
 
 
@@ -89,7 +89,7 @@ beforeEach(() => {
 
 test('correct task should be deleted from correct array', () => {
 
-    const arg = {taskId: '2', todoListId: 'todolistId2'}
+    const arg = {id: '2', todoListId: 'todolistId2'}
 
     const action = tasksThunks.deleteTask.fulfilled(arg, 'requestId', arg)
 
@@ -194,7 +194,7 @@ test('correct task should be added to correct array', () => {
 
 test('status of specified task should be changed', () => {
 
-    const domainModule = {id: '2', todolistId: 'todolistId2', domainModel: {status: TaskStatuses.New}}
+    const domainModule = {id: '2', todoListId: 'todolistId2', domainModel: {status: TaskStatuses.New}}
 
     const action = tasksThunks.updateTask.fulfilled(domainModule, 'requestId', domainModule)
 
@@ -205,7 +205,7 @@ test('status of specified task should be changed', () => {
 })
 
 test('title of specified task should be changed', () => {
-    const domainModule = {id: '2', todolistId: 'todolistId2', domainModel: {title: 'newTitle'}}
+    const domainModule = {id: '2', todoListId: 'todolistId2', domainModel: {title: 'newTitle'}}
 
     const action = tasksThunks.updateTask.fulfilled(domainModule, 'requestId', domainModule)
 
