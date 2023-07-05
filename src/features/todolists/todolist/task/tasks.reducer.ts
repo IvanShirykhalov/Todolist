@@ -15,17 +15,17 @@ import {
     TaskType,
     UpdateTaskArgType,
     UpdateTaskModelType
-} from "features/todolists/task/tasks.api";
+} from "features/todolists/todolist/task/tasks.api";
 
 
-const fetchTasks = createAppAsyncThunk<FetchTasksArgType, string>('tasks/fetchTasks', async (todolistId, thunkAPI) => {
+const fetchTasks = createAppAsyncThunk<FetchTasksArgType, string>('tasks/fetchTasks', async (todoListId, thunkAPI) => {
     const {dispatch} = thunkAPI
 
     return thunkTryCatch(thunkAPI, async ()=>{
-        const res = await taskAPI.getTasks(todolistId)
+        const res = await taskAPI.getTasks(todoListId)
         dispatch(appActions.setAppStatus({status: 'succeeded'}))
         const tasks = res.data.items
-        return {todolistId, tasks}
+        return {todoListId, tasks}
     })
 })
 

@@ -1,5 +1,5 @@
-import React, {ChangeEvent} from 'react';
-import {tasksThunks} from "features/todolists/task/tasks.reducer";
+import React, {ChangeEvent, FC, memo} from 'react';
+import {tasksThunks} from "features/todolists/todolist/task/tasks.reducer";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import ListItem from "@mui/material/ListItem";
@@ -7,15 +7,16 @@ import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import {EditableSpan} from "common/components/editableSpan/EditableSpan";
 import {TaskStatuses} from "common/enums/common.enums";
 import {useActions} from "common/hooks/useActions";
-import {TaskType} from "features/todolists/task/tasks.api";
+import {TaskType} from "features/todolists/todolist/task/tasks.api";
+import s from 'features/todolists/todolist/task/styles.module.css'
 
 
-type TaskPropsType = {
+type Props = {
     task: TaskType
     todoListId: string
 }
 
-export const Task = React.memo(({todoListId, task}: TaskPropsType) => {
+export const Task: FC<Props> = memo(({todoListId, task}) => {
 
         const id = task.id
         const {deleteTask, updateTask} = useActions(tasksThunks)
@@ -38,7 +39,7 @@ export const Task = React.memo(({todoListId, task}: TaskPropsType) => {
 
         return (
             <ListItem sx={{p: '0'}} key={id}
-                      className={task.status === TaskStatuses.Completed ? 'is-done' : ''}>
+                      className={task.status === TaskStatuses.Completed ? s.isDone : ''}>
                 <IconButton onClick={removeTask}>
                     <ClearOutlinedIcon fontSize={'small'}/>
                 </IconButton>

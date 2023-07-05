@@ -2,12 +2,12 @@ import React, {ChangeEvent, KeyboardEvent, useCallback, useState} from 'react';
 import {IconButton, TextField} from "@mui/material";
 import {Add} from "@mui/icons-material";
 
-type AddItemFormType = {
+type Props = {
     addItem: (title: string) => void
     disabled?: boolean
 }
 
-export const AddItemForm = React.memo((props: AddItemFormType) => {
+export const AddItemForm = React.memo((props: Props) => {
     const [title, setTitle] = useState('')
     const [error, setError] = useState<string | null>(null)
 

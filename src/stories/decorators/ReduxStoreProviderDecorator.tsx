@@ -1,7 +1,7 @@
 import {Provider} from "react-redux";
 import {AppRootStateType} from "app/store";
 import {applyMiddleware, combineReducers, createStore} from "redux";
-import {tasksReducer} from "features/todolists/task/tasks.reducer";
+import {tasksReducer} from "features/todolists/todolist/task/tasks.reducer";
 import {todolistsReducer} from "features/todolists/todolist/todolists.reducer";
 import {appReducer} from "app/app.reducer";
 import thunk from "redux-thunk";
