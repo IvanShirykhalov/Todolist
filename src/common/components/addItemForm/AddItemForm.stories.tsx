@@ -19,8 +19,9 @@ const Template: ComponentStory<typeof AddItemForm> = (args) => <AddItemForm {...
 
 export const AddItemFormStory = Template.bind({});
 
+// @ts-ignore
 AddItemFormStory.args = {
-    addItem: action('Button clicked inside form'),
+
 };
 
 
@@ -32,6 +33,12 @@ const Template1: ComponentStory<typeof AddItemForm> = (args) => {
     const addItem = () => {
         if (title.trim() !== '') {
             args.addItem(title.trim())
+                .then(() => {
+                    setTitle('')
+                })
+                .catch(()=>{
+                    setError('Error')
+                })
             setTitle('')
         } else {
             setError('Title is required!')
@@ -71,5 +78,5 @@ const Template1: ComponentStory<typeof AddItemForm> = (args) => {
 export const AddItemFormErrorStory = Template1.bind({});
 
 AddItemFormErrorStory.args = {
-    addItem: action('Button clicked inside form')
+
 };

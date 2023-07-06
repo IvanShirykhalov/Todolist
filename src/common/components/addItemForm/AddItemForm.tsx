@@ -1,9 +1,11 @@
-import React, {ChangeEvent, KeyboardEvent, useCallback, useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {IconButton, TextField} from "@mui/material";
 import {Add} from "@mui/icons-material";
+import {CommonResponseType} from "common/types";
+import s from "./styles.module.css"
 
 type Props = {
-    addItem: (title: string) => void
+    addItem: (title: string) => Promise<any>
     disabled?: boolean
 }
 
@@ -14,7 +16,12 @@ export const AddItemForm = React.memo((props: Props) => {
     const addItem = () => {
         if (title.trim() !== '') {
             props.addItem(title.trim())
-            setTitle('')
+                .then(() => {
+                    setTitle('')
+                })
+                .catch((res: CommonResponseType) => {
+                    setError(res.messages[0])
+                })
         } else {
             setError('Title is required!')
         }
@@ -43,13 +50,13 @@ export const AddItemForm = React.memo((props: Props) => {
                 onKeyPress={onKeyPressHandler}
                 onKeyUp={onKeyPressHandler}
                 onBlur={onBlurHandler}
-                className={error ? 'error' : ''}
+                className={error ? s.error : ''}
                 disabled={props.disabled}
             />
             <IconButton onClick={addItem} disabled={props.disabled}>
                 <Add/>
             </IconButton>
-            {error && <div className={'error-message'}>{error}</div>}
+            {error && <div className={s.errorMessage}>{error}</div>}
         </div>
     );
 })

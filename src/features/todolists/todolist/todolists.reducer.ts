@@ -32,15 +32,6 @@ const fetchTodolists = createAppAsyncThunk<TodolistType[], FetchTodolistsArgType
         dispatch(appActions.setAppStatus({status: 'succeeded'}))
         return res.data
     })
-    // dispatch(appActions.setAppStatus({status: 'loading'}))
-    // try {
-    //     const res = await commonApi.getTodolists()
-    //     dispatch(appActions.setAppStatus({status: 'succeeded'}))
-    //     return res.data
-    // } catch (e) {
-    //     handleServerNetworkError((e as Error), dispatch)
-    //     return rejectWithValue(null)
-    // }
 })
 
 const createTodolist = createAppAsyncThunk<{ todolist: TodolistType }, string>
@@ -55,27 +46,10 @@ const createTodolist = createAppAsyncThunk<{ todolist: TodolistType }, string>
             const todolist = res.data.data.item
             return {todolist}
         } else {
-            handleServerAppError(res.data, dispatch)
-            return rejectWithValue(null)
+            handleServerAppError(res.data, dispatch, false)
+            return rejectWithValue(res.data)
         }
     })
-    // dispatch(appActions.setAppStatus({status: 'loading'}))
-    //
-    // try {
-    //     const res = await commonApi.createTodolist(title)
-    //     if (res.data.resultCode === ResultCode.OK) {
-    //         //dispatch(todolistsActions.addTodolist({todolist: res.data.data.item}))
-    //         dispatch(appActions.setAppStatus({status: 'succeeded'}))
-    //         const todolist = res.data.data.item
-    //         return {todolist}
-    //     } else {
-    //         handleServerAppError(res.data, dispatch)
-    //         return rejectWithValue(null)
-    //     }
-    // } catch (e) {
-    //     handleServerNetworkError((e as Error), dispatch)
-    //     return rejectWithValue(null)
-    // }
 })
 
 const removeTodolist = createAppAsyncThunk<RemoveTodolistsArgType, RemoveTodolistsArgType>
@@ -96,28 +70,6 @@ const removeTodolist = createAppAsyncThunk<RemoveTodolistsArgType, RemoveTodolis
             return rejectWithValue(null)
         }
     })
-
-    // dispatch(appActions.setAppStatus({status: 'loading'}))
-    // dispatch(todolistsActions.changeTodolistStatus({id: arg.id, entityStatus: 'loading'}))
-    //
-    // try {
-    //     const res = await commonApi.deleteTodolist(arg.id)
-    //     console.log({res})
-    //     if (res.data.resultCode === ResultCode.OK) {
-    //         //dispatch(todolistsActions.removeTodolist({id}))
-    //         dispatch(appActions.setAppStatus({status: 'succeeded'}))
-    //         return arg
-    //
-    //     } else {
-    //         handleServerAppError(res.data, dispatch)
-    //         dispatch(todolistsActions.changeTodolistStatus({id: arg.id, entityStatus: 'failed'}))
-    //         return rejectWithValue(null)
-    //     }
-    // } catch (e) {
-    //     handleServerNetworkError((e as Error), dispatch)
-    //     dispatch(todolistsActions.changeTodolistStatus({id: arg.id, entityStatus: 'failed'}))
-    //     return rejectWithValue(null)
-    // }
 })
 
 const updateTodolistTitle = createAppAsyncThunk<ChangeTodolistTitleArgType, ChangeTodolistTitleArgType>
@@ -135,22 +87,6 @@ const updateTodolistTitle = createAppAsyncThunk<ChangeTodolistTitleArgType, Chan
             return rejectWithValue(null)
         }
     })
-    // dispatch(appActions.setAppStatus({status: 'loading'}))
-    //
-    // try {
-    //     const res = await commonApi.updateTodolist(arg.id, arg.title)
-    //     if (res.data.resultCode === ResultCode.OK) {
-    //         //dispatch(todolistsActions.changeTodolistTitle({id, title}))
-    //         dispatch(appActions.setAppStatus({status: 'succeeded'}))
-    //         return arg
-    //     } else {
-    //         handleServerAppError(res.data, dispatch)
-    //         return rejectWithValue(null)
-    //     }
-    // } catch (e) {
-    //     handleServerNetworkError((e as Error), dispatch)
-    //     return rejectWithValue(null)
-    // }
 })
 
 const slice = createSlice({

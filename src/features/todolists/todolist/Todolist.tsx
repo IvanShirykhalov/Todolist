@@ -1,16 +1,12 @@
 import React, {FC, memo, useCallback, useEffect} from 'react';
 import {AddItemForm} from "common/components/addItemForm/AddItemForm";
-import {EditableSpan} from "common/components/editableSpan/EditableSpan";
-import IconButton from "@mui/material/IconButton";
-import List from "@mui/material/List";
-import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
-import {TodolistDomainType, todolistsThunks,} from "features/todolists/todolist/todolists.reducer";
-import {tasksThunks} from "features/todolists/todolist/task/tasks.reducer";
-import {Task} from "./task/Task";
-import {TaskStatuses} from "common/enums/common.enums";
+import {TodolistDomainType,} from "features/todolists/todolist/todolists.reducer";
+import {tasksThunks} from "features/todolists/todolist/tasks/task/tasks.reducer";
 import {useActions} from "common/hooks/useActions";
-import {TaskType} from "features/todolists/todolist/task/tasks.api";
+import {TaskType} from "features/todolists/todolist/tasks/task/tasks.api";
 import {FilterTasksButton} from "features/todolists/todolist/filterTasksButton/FilterTasksButton";
+import {Tasks} from "features/todolists/todolist/tasks/Tasks";
+import {TodolistTitle} from "features/todolists/todolist/todolistTitle/TodolistTitle";
 
 
 type Props = {
@@ -19,27 +15,13 @@ type Props = {
     todolist: TodolistDomainType
 }
 
-export const Todolist: FC<Props> = memo(({demo = false, todolist: {id, filter, title, entityStatus}, ...props}) => {
+export const Todolist: FC<Props> = memo(({demo = false, todolist: {id, filter, title, entityStatus}, tasks}) => {
 
-
-    const {updateTodolistTitle, removeTodolist} = useActions(todolistsThunks)
     const {addTask, fetchTasks} = useActions(tasksThunks)
 
-    switch (filter) {
-        case 'active':
-            props.tasks = props.tasks.filter(t => t.status === TaskStatuses.New)
-            break;
-        case "completed":
-            props.tasks = props.tasks.filter(t => t.status === TaskStatuses.Completed)
+    const createTask = (title: string) => {
+        return addTask({todoListId: id, title}).unwrap()
     }
-
-
-    const changeTodolistTitle = useCallback((title: string) => updateTodolistTitle({title, id}), [])
-
-    const deleteTodolist = useCallback(() => removeTodolist({id}), [])
-
-    const createTask = useCallback((title: string) => addTask({todoListId: id, title}), [])
-
 
     useEffect(() => {
         if (demo) {
@@ -50,19 +32,10 @@ export const Todolist: FC<Props> = memo(({demo = false, todolist: {id, filter, t
 
     return (
         <div>
-            <h3>
-                <IconButton onClick={deleteTodolist} size={'large'} disabled={entityStatus === 'loading'}>
-                    <ClearOutlinedIcon/>
-                </IconButton>
-                <EditableSpan title={title} onChangeTitle={changeTodolistTitle}/>
-            </h3>
+            <TodolistTitle id={id} title={title} entityStatus={entityStatus}/>
             <AddItemForm addItem={createTask} disabled={entityStatus === 'loading'}/>
-            <List>
-                {props.tasks.map(t => <Task key={t.id} task={t} todoListId={id}/>)}
-            </List>
-            <div>
-                <FilterTasksButton filter={filter} id={id}/>
-            </div>
+            <Tasks id={id} tasks={tasks} filter={filter}/>
+            <FilterTasksButton filter={filter} id={id}/>
         </div>
     );
 })

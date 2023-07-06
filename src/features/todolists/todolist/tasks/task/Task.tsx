@@ -1,5 +1,5 @@
 import React, {ChangeEvent, FC, memo} from 'react';
-import {tasksThunks} from "features/todolists/todolist/task/tasks.reducer";
+import {tasksThunks} from "features/todolists/todolist/tasks/task/tasks.reducer";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import ListItem from "@mui/material/ListItem";
@@ -7,8 +7,8 @@ import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import {EditableSpan} from "common/components/editableSpan/EditableSpan";
 import {TaskStatuses} from "common/enums/common.enums";
 import {useActions} from "common/hooks/useActions";
-import {TaskType} from "features/todolists/todolist/task/tasks.api";
-import s from 'features/todolists/todolist/task/styles.module.css'
+import {TaskType} from "features/todolists/todolist/tasks/task/tasks.api";
+import s from 'features/todolists/todolist/tasks/task/styles.module.css'
 
 
 type Props = {
