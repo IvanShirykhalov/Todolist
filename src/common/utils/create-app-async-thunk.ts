@@ -7,5 +7,10 @@ import {CommonResponseType} from "common/types";
 export const createAppAsyncThunk = createAsyncThunk.withTypes<{
     state: AppRootStateType
     dispatch: AppDispatch
-    rejectValue: null | CommonResponseType
+    rejectValue: null | RejectValueType
 }>()
+
+export type RejectValueType = {
+    data: CommonResponseType
+    showGlobalError: boolean
+}

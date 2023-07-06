@@ -3,6 +3,7 @@ import {IconButton, TextField} from "@mui/material";
 import {Add} from "@mui/icons-material";
 import {CommonResponseType} from "common/types";
 import s from "./styles.module.css"
+import {RejectValueType} from "common/utils/create-app-async-thunk";
 
 type Props = {
     addItem: (title: string) => Promise<any>
@@ -19,8 +20,11 @@ export const AddItemForm = React.memo((props: Props) => {
                 .then(() => {
                     setTitle('')
                 })
-                .catch((res: CommonResponseType) => {
-                    setError(res.messages[0])
+                .catch((err: RejectValueType) => {
+                    if (err.data) {
+                        const messages = err.data.messages
+                        setError(messages.length ? messages[0] : 'Some error occurred')
+                    }
                 })
         } else {
             setError('Title is required!')
@@ -47,7 +51,6 @@ export const AddItemForm = React.memo((props: Props) => {
                 variant={'standard'}
                 value={title}
                 onChange={onChangeHandler}
-                onKeyPress={onKeyPressHandler}
                 onKeyUp={onKeyPressHandler}
                 onBlur={onBlurHandler}
                 className={error ? s.error : ''}

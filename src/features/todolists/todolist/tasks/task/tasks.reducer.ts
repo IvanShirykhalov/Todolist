@@ -3,9 +3,7 @@ import {createSlice} from "@reduxjs/toolkit";
 import {todolistsThunks} from "features/todolists/todolist/todolists.reducer";
 import {clearTodolistsAndTasks} from "common/actions/common.actions";
 import {createAppAsyncThunk} from "common/utils/create-app-async-thunk";
-import {handleServerAppError} from "common/utils/handle-server-app-error";
 import {ResultCode} from "common/enums/common.enums";
-import {thunkTryCatch} from "common/utils/thunk-try-catch";
 import {
     AddTaskArgType,
     DeleteTaskArgType,
@@ -18,56 +16,37 @@ import {
 } from "features/todolists/todolist/tasks/task/tasks.api";
 
 
-const fetchTasks = createAppAsyncThunk<FetchTasksArgType, string>('tasks/fetchTasks', async (todoListId, thunkAPI) => {
-    const {dispatch} = thunkAPI
-
-    return thunkTryCatch(thunkAPI, async ()=>{
-        const res = await taskAPI.getTasks(todoListId)
-        dispatch(appActions.setAppStatus({status: 'succeeded'}))
-        const tasks = res.data.items
-        return {todoListId, tasks}
-    })
+const fetchTasks = createAppAsyncThunk<FetchTasksArgType, string>('tasks/fetchTasks', async (todoListId) => {
+    const res = await taskAPI.getTasks(todoListId)
+    const tasks = res.data.items
+    return {todoListId, tasks}
 })
 
-const addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgType>('tasks/addTask', async (arg, thunkAPI) => {
-    const {dispatch, rejectWithValue} = thunkAPI
-
-    return thunkTryCatch(thunkAPI, async () => {
-        const res = await taskAPI.createTask(arg)
-        if (res.data.resultCode === ResultCode.OK) {
-            const task = res.data.data.item
-            dispatch(appActions.setAppStatus({status: 'succeeded'}))
-            return {task}
-        } else {
-            handleServerAppError(res.data, dispatch, false)
-            return rejectWithValue(res.data)
-        }
-    })
+const addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgType>('tasks/addTask', async (arg, {rejectWithValue}) => {
+    const res = await taskAPI.createTask(arg)
+    if (res.data.resultCode === ResultCode.OK) {
+        const task = res.data.data.item
+        return {task}
+    } else {
+        return rejectWithValue({data: res.data, showGlobalError: false})
+    }
 })
 
-const deleteTask = createAppAsyncThunk<DeleteTaskArgType, DeleteTaskArgType>('tasks/deleteTask', async (arg, thunkAPI) => {
+const deleteTask = createAppAsyncThunk<DeleteTaskArgType, DeleteTaskArgType>('tasks/deleteTask', async (arg, {rejectWithValue}) => {
 
-    const {dispatch, rejectWithValue} = thunkAPI
-    return thunkTryCatch(thunkAPI, async () => {
-        const res = await taskAPI.deleteTask(arg)
-        if (res.data.resultCode === ResultCode.OK) {
-            dispatch(appActions.setAppStatus({status: 'succeeded'}))
-
-            return arg
-        } else {
-            handleServerAppError(res.data, dispatch)
-            return rejectWithValue(null)
-        }
-    })
+    const res = await taskAPI.deleteTask(arg)
+    if (res.data.resultCode === ResultCode.OK) {
+        return arg
+    } else {
+        return rejectWithValue({data: res.data, showGlobalError: true})
+    }
 })
 
 
 const updateTask = createAppAsyncThunk<UpdateTaskArgType, UpdateTaskArgType>('tasks/updateTask', async (arg, thunkAPI) => {
 
-    const {dispatch, getState, rejectWithValue} = thunkAPI
+    const {getState, rejectWithValue} = thunkAPI
     const task = getState().tasks[arg.todoListId].find(t => t.id === arg.id)
-
-    dispatch(appActions.setAppStatus({status: 'loading'}))
 
     if (task) {
         const apiModel: UpdateTaskModelType = {
@@ -79,17 +58,13 @@ const updateTask = createAppAsyncThunk<UpdateTaskArgType, UpdateTaskArgType>('ta
             description: task.description,
             ...arg.domainModel
         }
-        return thunkTryCatch(thunkAPI, async () => {
-            const res = await taskAPI.updateTask(arg.todoListId, arg.id, apiModel)
+        const res = await taskAPI.updateTask(arg.todoListId, arg.id, apiModel)
 
-            if (res.data.resultCode === ResultCode.OK) {
-                dispatch(appActions.setAppStatus({status: 'succeeded'}))
-                return arg
-            } else {
-                dispatch(appActions.setAppError({error: res.data.messages[0]}))
-                return rejectWithValue(null)
-            }
-        })
+        if (res.data.resultCode === ResultCode.OK) {
+            return arg
+        } else {
+            return rejectWithValue({data: res.data, showGlobalError: true})
+        }
     } else {
         return rejectWithValue(null)
     }
